@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Play Music!</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="A site to do random stuff if you're bored!">
+        <meta name="keywords" content="fun, neal.fun, boredbutton, bored, have fun, musicmix, music, mix, mixer,">
+        <meta name="author" content="NicoWebCreations">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" media="all">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6501023040597198"
+        crossorigin="anonymous"></script>
+    </head>
+    <body>
+    </a>  <a href="index.html" ><img src="logo.png" width="105px" height="auto"> </img></a>
+        <header>
+<h1>Play Music!</h1>
+<h2>If you are on a mobile device, then please turn to landscape view for the optimal experience.</h2>
+        </header>
+        <centre>
+
+        <form>
+          <label for="audio-upload"><h1>Select an audio file:</h1></label><br>
+          <input type="file" id="audio-upload" accept="audio/*">
+        </form> 
+        
+        <audio id="audio-player" controls></audio>
+        </centre>
+        <script>
+          // Get the file input element
+          const fileInput = document.querySelector('#audio-upload');
+        
+          // Listen for changes to the file input element
+          fileInput.addEventListener('change', function() {
+            // Get the selected file
+            const file = fileInput.files[0];
+        
+            // Create a URL for the selected file
+            const fileURL = URL.createObjectURL(file);
+        
+            // Update the audio player source
+            const audioPlayer = document.querySelector('#audio-player');
+            audioPlayer.src = fileURL;
+          });
+        </script>
+        <centre>
+        <div class="keys">
+              <div data-key="65" class="key">
+                <kbd>A</kbd>
+                <span class="sound">clap</span>
+              </div>
+              <div data-key="83" class="key">
+                <kbd>S</kbd>
+                <span class="sound">hihat</span>
+              </div>
+              <div data-key="68" class="key">
+                <kbd>D</kbd>
+                <span class="sound">kick</span>
+              </div>
+              <div data-key="70" class="key">
+                <kbd>F</kbd>
+                <span class="sound">openhat</span>
+              </div>
+              <div data-key="71" class="key">
+                <kbd>G</kbd>
+                <span class="sound">boom</span>
+              </div>
+              <div data-key="72" class="key">
+                <kbd>H</kbd>
+                <span class="sound">ride</span>
+              </div>
+              <div data-key="74" class="key">
+                <kbd>J</kbd>
+                <span class="sound">snare</span>
+              </div>
+              <div data-key="75" class="key">
+                <kbd>K</kbd>
+                <span class="sound">tom</span>
+              </div>
+              <div data-key="76" class="key">
+                <kbd>L</kbd>
+                <span class="sound">tink</span>
+              </div>
+              <div data-key="80" class="key">
+                <kbd>p</kbd>
+                <span class="sound">Beethoven Remix</span>
+              </div>
+            </div>
+</centre>
+
+            <audio data-key="65" src="sounds/clap.wav"></audio>
+            <audio data-key="83" src="sounds/hihat.wav"></audio>
+            <audio data-key="68" src="sounds/kick.wav"></audio>
+            <audio data-key="70" src="sounds/openhat.wav"></audio>
+            <audio data-key="71" src="sounds/boom.wav"></audio>
+            <audio data-key="72" src="sounds/ride.wav"></audio>
+            <audio data-key="74" src="sounds/snare.wav"></audio>
+            <audio data-key="75" src="sounds/tom.wav"></audio>
+            <audio data-key="76" src="sounds/tink.wav"></audio>
+            <audio data-key="80" src="sounds/5thsymphonyremix.wav"></audio>
+      
+            <script>
+                function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    if(!audio) return; //stop running the function all together
+    audio.currentTime = 0; //rewind to the start
+    audio.play();
+    key.classList.add('playing');
+}
+
+function removeTransition(e) {
+if(e.propertyName !== 'transform') return; //Skip it if it is not a transform
+this.classList.remove('playing')
+}
+
+const keys = document.querySelectorAll('.key');
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+window.addEventListener('keydown', playSound);
+
+
+// Click + touch function
+
+keys.forEach(key => key.addEventListener("click", function(e) {
+      let value = key.getAttribute("data-key");
+      const audio = document.querySelector(`audio[data-key="${value}"]`);
+      const key_data = document.querySelector(`div[data-key="${value}"]`);
+      if (audio) {
+        key_data.classList.add("playing");
+        audio.currentTime = 0;
+        audio.play();
+      }
+    })
+  );
+            </script>
+            <style>
+                html {
+    font-size: 10px;
+    background-color: #0011ff;
+    background-size: cover;
+  }
+  
+  body,html {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    text-shadow: 0 0 .5rem black;
+  }
+
+  header {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 0 auto;
+    color: #ffffff;
+    /*font-family: 'Pacifico', cursive;*/
+  }
+
+  .title {
+    font-size: 20px;
+    margin: 0px;
+    display: inline-flex;
+  }
+
+  h1 {
+    margin: 0px;
+  }
+
+  .fas {
+    font-size: 50px;
+    margin-right: 5px;
+  }
+  
+  /* 3 borders color after h1 */
+div.borderColor1 {
+  display: inline-block;
+  background: #ff9d15;
+  width: 95px;
+  height: 5px;
+}
+
+div.borderColor2 {
+  display: inline-block;
+  background: #014b07;
+  width: 95px;
+  height: 5px;
+}
+
+div.borderColor3 {
+  display: inline-block;
+  background: #0021b3;
+  width: 95px;
+  height: 5px;
+}
+  .keys {
+    display: flex;
+    flex: 1;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    clear: both;
+    flex-wrap:wrap;
+    height: 10px;
+  }
+
+ /* .keys:nth-of-type(2) {
+    display: flex;
+    flex-wrap: wrap;
+    height: 10px;  or any other fixed height 
+    position: absolute;
+    top: 1px; 
+
+
+}*/
+
+  .guide {
+    list-style: disc;
+    margin: 1px;
+    font-size: 17px;
+    list-style: none;
+  }
+  
+  .key {
+    border: .4rem solid #0011ff;
+    border-radius: .5rem;
+    font-size: 1.5rem;
+    padding: 1rem .5rem;
+    transition: all .07s ease;
+    width: 10rem;
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.253);
+    text-shadow: 0 0 .5rem black;
+    cursor: pointer;
+  }
+  
+  .playing {
+    transform: scale(1.1);
+    border-color: #ffffff;
+    box-shadow: 0 0 1rem #ffffff;
+  }
+  
+  kbd {
+    display: block;
+    font-size: 4rem;
+  }
+  
+  .sound {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    color: #ffc600;
+  }
+
+  .wow{
+    display: inline-flex;
+    list-style: none;
+    margin: 0px;
+  }
+
+  .social-icon {
+    padding-left: 0;
+  }
+
+  .fa {
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 15px;
+    color: rgb(36, 36, 36);
+  }
+
+  @media only screen and (max-width: 600px) {
+    .keys {
+      display: grid;
+      grid-gap: 20px;
+      /* grid-template-columns: repeat(auto-fill, minmax(40px, 100px)); */
+      grid-template: 90px 90px 90px / auto auto auto;
+      margin-top: 10px;
+  }
+
+  .key {
+    width: 65px;
+    height: 55px;
+    
+  }
+
+  .guide {
+    padding: 0px;
+  }
+
+  }
+
+  audio#audio-player {
+  display: block;
+  width: 50%; /* or any other value */
+  margin: 0 auto;
+}
+
+  form {
+    display: block;
+  width: 50%; /* or any other value */
+  margin: 0 auto;
+  }
+
+            </style>
+
+<iframe src="musicbeat.html" height="200" width="800" style="display: block; margin-left: auto; margin-right: auto; z-index: 12;" title="Iframe Example"></iframe>
+
+      </body>
+</html>

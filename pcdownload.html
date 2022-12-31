@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Speed up your PC</title>
+<meta charset="UTF-8">
+    <meta name="description" content="A site to do random stuff if you're bored">
+    <meta name="keywords" content="fun, neal.fun, boredbutton, bored, have fun,">
+    <meta name="author" content="NicoWebCreations">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!--<link rel="stylesheet" href=""> -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6501023040597198"
+     crossorigin="anonymous"></script>
+        </head>
+
+        <body>
+          <style>
+            body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+  padding: 0;
+  text-align: center;
+  background-image: url("wincartoon2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  }
+  
+  .download-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .download-button:hover {
+    background-color: rgb(95, 95, 95);
+  }
+          </style>
+          <!-- navigation bar here???? -->
+          <main>
+            <u><h1><b>Computer Resources</b></h1></u><br>
+            <h3> You can never have a PC that is too fast!</h3>
+            <h4> Go on, it's cheaper than buying new parts!</h4>
+            <section id="resource-list">
+              <!-- list of resources here -->
+              <section id="resource-list">
+                <ul>
+                  <br><br>
+                  <audio id="sound1" src="windows.mp3" preload="auto"></audio>
+                  <audio id="sound2" src="win7.mp3" preload="auto"></audio>
+                  <audio id="sound3" src="winerror.mp3" preload="auto"></audio>
+                  <button class="download-button" onclick="document.getElementById('sound1').play(); downloadFile('raminstallation.exe.jpg')">Download more RAM</button></li> <br><br><br>
+                  <button class="download-button" onclick="document.getElementById('sound2').play(); downloadFile('cpupowerinstallation.exe.jpg')">Download more CPU power</button></li> <br><br><br>
+                  <button class="download-button" onclick="document.getElementById('sound3').play(); downloadFile('spaceinstallation.exe.jpg')">Download more Storage power</button></li>
+                </ul>
+              </section>
+
+          </main>
+          <!-- JavaScript here -->
+
+          <script>
+            function downloadFile(file) {
+              const url = URL.createObjectURL(new Blob([file]));
+              const a = document.createElement('a');
+              a.style.display = 'none';
+              a.href = url;
+              a.download = file;
+              document.body.appendChild(a);
+              a.click();
+              URL.revokeObjectURL(url);
+            }
+          </script>
+          
+        </body>
+      
+
+     <!--   <button class="button button1" class="Text-align: center">green
+          
+        </button>
+        <button class="button button2">Blue</button> -->
+
+</html>
