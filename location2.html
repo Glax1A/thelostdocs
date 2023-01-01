@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Find your location by choosing your favourite things!</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="A site to do random stuff if you're bored!">
+        <meta name="keywords" content="fun, neal.fun, boredbutton, bored, have fun,">
+        <meta name="author" content="NicoWebCreations">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.png">
+        <style>
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+        </style>
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6501023040597198"
+            crossorigin="anonymous"></script>
+    </head>
+    <body>
+<form>
+    <input type="text">
+</form>
+<button onclick="showMap()">Show Map</button>
+<script>
+    navigator.geolocation.getCurrentPosition(success);
+    function success(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+    }
+  </script>
+  <script>
+    function showMap() {
+  var mapFrame = document.createElement("iframe");
+  mapFrame.setAttribute("src", "https://maps.google.com/maps?q=" + latitude + "," + longitude + "&z=17&output=embed");
+  mapFrame.setAttribute("width", "600");
+  mapFrame.setAttribute("height", "450");
+  document.body.appendChild(mapFrame);
+}
+  </script>
+</body>
+</html>
