@@ -19,34 +19,28 @@
 
     </head>
     <body>
-        <button id="get-location-button">Get Location</button>
-        <div id="address"></div>
-
-        <script>
-            document.getElementById('get-location-button').addEventListener('click', function() {
-  // Check if the browser supports the Geolocation API
-  if ('geolocation' in navigator) {
-    // Get the user's current position
-    navigator.geolocation.getCurrentPosition(function(position) {
-      // Use the Mapbox Geocoding API to get the user's address
-      mapboxClient.geocoding.reverseGeocode({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      })
-      .send()
-      .then(function(response) {
-        // Get the first address from the response
-        var address = response.body.features[0];
-        // Display the address on the page
-        document.getElementById('address').innerHTML = address.place_name;
-      });
-    });
-  } else {
-    // The browser does not support the Geolocation API
-    alert('Your browser does not support geolocation.');
-  }
-});
-
-        </script>
+      <button id="get-location">Get Location</button>
+      <p id="address"></p>
+      
+      <script>
+        const getLocationButton = document.getElementById('get-location');
+        const addressElement = document.getElementById('address');
+      
+        getLocationButton.addEventListener('click', function() {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+      
+            // Use a reverse geocoding service to get the address from the latitude and longitude
+            fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=2e5f5c49db3e4b4f9a8a9aa2a06dad74`)
+              .then(response => response.json())
+              .then(data => {
+                // Display the address in the address element
+                addressElement.innerText = data.results[0].formatted;
+              });
+          });
+        });
+      </script>
+      
       </body>
 </html>
