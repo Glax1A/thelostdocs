@@ -14,7 +14,7 @@
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6501023040597198"
             crossorigin="anonymous"></script>
 
-            <script src="https://api.opencagedata.com/geocode/v1/js?key=2e5f5c49db3e4b4f9a8a9aa2a06dad74"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@opencage/maps@1/dist/ol.js"></script>
 
     </head>
     <body>
@@ -40,7 +40,48 @@
           });
         });
       </script>
-      
-      
+
+<button id="location-button">Show My Location</button>
+
+      <div id="map"></div>
+      <script>
+        var map = new ol.Map({
+  target: 'map',
+  layers: [
+    new ol.layer.Tile({
+      source: new ol.source.OSM()
+    })
+  ],
+  view: new ol.View({
+    center: ol.proj.fromLonLat([0, 0]),
+    zoom: 2
+  })
+});
+
+var button = document.getElementById('location-button');
+button.addEventListener('click', function() {
+  // Code to display the location will go here
+});
+
+
+navigator.geolocation.getCurrentPosition(function(position) {
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
+  // Code to display the location on the map will go here
+});
+
+
+fetch('https://api.opencagedata.com/geocode/v1/json?q=2e5f5c49db3e4b4f9a8a9aa2a06dad74' + latitude + '+' + longitude + '&key=2e5f5c49db3e4b4f9a8a9aa2a06dad74')
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(data) {
+    var address = data.results[0].formatted;
+    // Code to display the address on the page will go here
+  });
+
+  var addressElement = document.getElement
+
+      </script>
       </body>
 </html>
