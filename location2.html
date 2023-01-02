@@ -49,7 +49,22 @@
                 L.marker([lat, lng]).addTo(map);
               });
             });
+
+
+            // First, create a map and set its view to the user's current location
+var map = L.map('map').locate({setView: true, maxZoom: 16});
+
+// Add a marker at the user's location
+var marker = L.marker([0, 0]).addTo(map);
+
+// Use the geolocation API to get the user's current position
+navigator.geolocation.getCurrentPosition(function(position) {
+  // Update the marker position and map view
+  marker.setLatLng([position.coords.latitude, position.coords.longitude]);
+  map.setView([position.coords.latitude, position.coords.longitude]);
+});
           </script>
+
           
 </body>
 </html>
