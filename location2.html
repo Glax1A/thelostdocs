@@ -40,41 +40,7 @@
           });
         });
       </script>
-      <div id="map"></div>
-
-      <style>
-        #map {
-          height: 400px;
-          width: 100%;
-        }
-      </style>
       
-      <script>
-        // Create a new OpenLayers map and add it to the page
-        var map = new ol.Map({
-          target: 'map',
-          layers: [
-            new ol.layer.Tile({
-              source: new ol.source.OSM()
-            })
-          ],
-          view: new ol.View({
-            center: [0, 0],
-            zoom: 2
-          })
-        });
-
-
-        map.getView().setCenter([LONGITUDE, LATITUDE]);
-
-var marker = new ol.Overlay({
-  position: [LONGITUDE, LATITUDE],
-  element: document.getElementById('marker')
-});
-map.addOverlay(marker);
-
-
-      </script>
       
       </body>
 </html>
