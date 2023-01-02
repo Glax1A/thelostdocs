@@ -13,31 +13,48 @@
         </style>
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6501023040597198"
             crossorigin="anonymous"></script>
-            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-            integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-            crossorigin=""/>
     </head>
     <body>
-        <!-- create a div to hold the map -->
-        <div id="map"></div>
-        <!-- include Leaflet JS -->
-        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-       integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-       crossorigin=""></script>
-        <script>
-          // create a map in the "map" div, set the view to a given place and zoom
-          var map = L.map('map').setView([51.505, -0.09], 13);
-          // add an OpenStreetMap tile layer
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
-            maxZoom: 18
-          }).addTo(map);
-          // request user's location and add a marker to the map
-          map.locate({setView: true});
-          function onLocationFound(e) {
-            L.marker(e.latlng).addTo(map);
-          }
-          map.on('locationfound', onLocationFound);
-        </script>
+<!-- Include the OpenLayers library -->
+<script src="https://cdn.jsdelivr.net/npm/openlayers@6.5.1/build/ol.js" crossorigin=""></script>
+
+<!-- Create a div element to hold the map -->
+<div id="map" style="height: 400px;"></div>
+
+<script>
+  // Try to get the user's location
+  navigator.geolocation.getCurrentPosition(function(position) {
+    // Create a point at the user's location
+    const lonLat = [position.coords.longitude, position.coords.latitude];
+    const point = new ol.geom.Point(lonLat);
+
+    // Create a marker to show the location on the map
+    const marker = new ol.Feature({
+      geometry: point,
+      name: 'My Location'
+    });
+    const vectorSource = new ol.source.Vector({
+      features: [marker]
+    });
+    const markerVectorLayer = new ol.layer.Vector({
+      source: vectorSource
+    });
+
+    // Create the map
+    const map = new ol.Map({
+      target: 'map',
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        }),
+        markerVectorLayer
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat(lonLat),
+        zoom: 14
+      })
+    });
+  });
+</script>
       </body>
 </html>
