@@ -13,6 +13,8 @@
         </style>
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6501023040597198"
             crossorigin="anonymous"></script>
+
+            <script src="https://cdn.openlayers.org/ol/v6.5.0/ol.js"></script>
     </head>
     <body>
 <!-- Include the OpenLayers library -->
@@ -20,41 +22,27 @@
 
 <!-- Create a div element to hold the map -->
 <div id="map" style="height: 400px;"></div>
-
 <script>
-  // Try to get the user's location
-  navigator.geolocation.getCurrentPosition(function(position) {
-    // Create a point at the user's location
-    const lonLat = [position.coords.longitude, position.coords.latitude];
-    const point = new ol.geom.Point(lonLat);
+// Create an OpenLayers map
+var map = new ol.Map({
+  target: 'map', // The id of the div where the map will be displayed
+  layers: [
+    new ol.layer.Tile({
+      source: new ol.source.OSM() // Use the OpenStreetMap base layer
+    })
+  ],
+  view: new ol.View({
+    center: ol.proj.fromLonLat([0, 0]), // Initial center of the map (longitude, latitude)
+    zoom: 2 // Initial zoom level of the map
+  })
+});
 
-    // Create a marker to show the location on the map
-    const marker = new ol.Feature({
-      geometry: point,
-      name: 'My Location'
-    });
-    const vectorSource = new ol.source.Vector({
-      features: [marker]
-    });
-    const markerVectorLayer = new ol.layer.Vector({
-      source: vectorSource
-    });
-
-    // Create the map
-    const map = new ol.Map({
-      target: 'map',
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM()
-        }),
-        markerVectorLayer
-      ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat(lonLat),
-        zoom: 14
-      })
-    });
-  });
+// Get the user's current location
+navigator.geolocation.getCurrentPosition(function(position) {
+  // Center the map on the user's current location
+  map.getView().setCenter(ol.proj.fromLonLat([position.coords.longitude, position.coords.latitude]));
+  map.getView().setZoom(16); // Zoom in on the user's location
+});
 </script>
       </body>
 </html>
