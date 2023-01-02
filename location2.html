@@ -22,27 +22,41 @@
 
 <!-- Create a div element to hold the map -->
 <div id="map" style="height: 400px;"></div>
-<script>
-// Create an OpenLayers map
-var map = new ol.Map({
-  target: 'map', // The id of the div where the map will be displayed
-  layers: [
-    new ol.layer.Tile({
-      source: new ol.source.OSM() // Use the OpenStreetMap base layer
-    })
-  ],
-  view: new ol.View({
-    center: ol.proj.fromLonLat([0, 0]), // Initial center of the map (longitude, latitude)
-    zoom: 2 // Initial zoom level of the map
-  })
-});
 
-// Get the user's current location
-navigator.geolocation.getCurrentPosition(function(position) {
-  // Center the map on the user's current location
-  map.getView().setCenter(ol.proj.fromLonLat([position.coords.longitude, position.coords.latitude]));
-  map.getView().setZoom(16); // Zoom in on the user's location
-});
+<script>
+  // Try to get the user's location
+  navigator.geolocation.getCurrentPosition(function(position) {
+    // Create a point at the user's location
+    const lonLat = [position.coords.longitude, position.coords.latitude];
+    const point = new ol.geom.Point(lonLat);
+
+    // Create a marker to show the location on the map
+    const marker = new ol.Feature({
+      geometry: point,
+      name: 'My Location'
+    });
+    const vectorSource = new ol.source.Vector({
+      features: [marker]
+    });
+    const markerVectorLayer = new ol.layer.Vector({
+      source: vectorSource
+    });
+
+    // Create the map
+    const map = new ol.Map({
+      target: 'map',
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        }),
+        markerVectorLayer
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat(lonLat),
+        zoom: 14
+      })
+    });
+  });
 </script>
       </body>
 </html>
