@@ -15,24 +15,41 @@
             crossorigin="anonymous"></script>
     </head>
     <body>
-<form>
-    <input type="text">
-</form>
-<button onclick="showMap()">Show Map</button>
-<script>
-    navigator.geolocation.getCurrentPosition(success);
-    function success(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
-    }
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
 
-    function showMap() {
-  var mapFrame = document.createElement("iframe");
-  mapFrame.setAttribute("src", "https://maps.google.com/maps?q=" + latitude + "," + longitude + "&z=17&output=embed");
-  mapFrame.setAttribute("width", "600");
-  mapFrame.setAttribute("height", "450");
-  document.body.appendChild(mapFrame);
-}
-  </script>
+        <button id="locate-button">Locate Me</button>
+        <div id="map"></div>
+        
+        <script>
+            // Get the locate button and map container elements
+            const locateButton = document.querySelector('#locate-button');
+            const mapContainer = document.querySelector('#map');
+          
+            // Listen for a click on the locate button
+            locateButton.addEventListener('click', function() {
+              // Get the user's current location
+              navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+          
+                // Create a Leaflet map centered on the user's location
+                const map = L.map(mapContainer).setView([lat, lng], 13);
+          
+                // Add a tile layer to the map
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                  attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+                }).addTo(map);
+          
+                // Add a marker to the map at the user's location
+                L.marker([lat, lng]).addTo(map);
+              });
+            });
+          </script>
+          
 </body>
 </html>
