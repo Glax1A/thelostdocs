@@ -9,8 +9,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="favicon.png">
         <meta http-equiv='cache-control' content='no-cache'>
-        <meta http-equiv='expires' content='0'>
-        <meta http-equiv='pragma' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
+
         <style>
         body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
         </style>
@@ -61,29 +62,6 @@
   })
 });
 
-var button = document.getElementById('location-button');
-button.addEventListener('click', function() {
-  // Code to display the location will go here
-});
-
-
-navigator.geolocation.getCurrentPosition(function(position) {
-  var latitude = position.coords.latitude;
-  var longitude = position.coords.longitude;
-  // Code to display the location on the map will go here
-});
-
-
-fetch('https://api.opencagedata.com/geocode/v1/json?q=2e5f5c49db3e4b4f9a8a9aa2a06dad74' + latitude + '+' + longitude + '&key=2e5f5c49db3e4b4f9a8a9aa2a06dad74')
-  .then(function(response) {
-    return response.json();
-  })
-  .then(function(data) {
-    var address = data.results[0].formatted;
-    // Code to display the address on the page will go here
-  });
-
-  var addressElement = document.getElement
 
       </script>
       </body>
