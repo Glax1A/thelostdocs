@@ -73,47 +73,7 @@ var marker = new ol.Overlay({
 });
 map.addOverlay(marker);
 
-const API_KEY = '2e5f5c49db3e4b4f9a8a9aa2a06dad74';
-const latitude = LATITUDE;
-const longitude = LONGITUDE;
 
-const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${2e5f5c49db3e4b4f9a8a9aa2a06dad74}`;
-
-fetch(url)
-  .then(response => response.json())
-  .then(data => {
-    // Here you can access the data returned by the API
-    console.log(data);
-  })
-  .catch(error => {
-    // Here you can handle any errors that may occur
-    console.error(error);
-  });
-
-  const map = new ol.Map({
-  target: 'map',
-  layers: [
-    new ol.layer.Tile({
-      source: new ol.source.OSM()
-    }),
-    new ol.layer.Vector({
-      source: new ol.source.Vector({
-        features: [new ol.Feature({
-          geometry: new ol.geom.Point(ol.proj.fromLonLat([longitude, latitude]))
-        })]
-      }),
-      style: new ol.style.Style({
-        image: new ol.style.Icon({
-          src: 'marker.png'
-        })
-      })
-    })
-  ],
-  view: new ol.View({
-    center: ol.proj.fromLonLat([longitude, latitude]),
-    zoom: 10
-  })
-});
       </script>
       
       </body>
