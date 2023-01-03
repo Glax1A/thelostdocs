@@ -4,43 +4,6 @@
 
     </head>
     <body>
-        <div id="dartboard">
-        </div>
-        
-        <input type="number" id="thrower">
-        <style>
-            #dartboard {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: url(https://static.wikia.nocookie.net/club-penguin-rewritten/images/4/4d/Dart_Board.png);
-  position: relative;
-}
 
-#thrower {
-  width: 50px;
-  height: 50px;
-  border: none;
-  background: url(dart.png);
-  position: absolute;
-}
-
-        </style>
-
-        <script>
-            const dartboard = document.querySelector('#dartboard');
-const thrower = document.querySelector('#thrower');
-
-function throwDart() {
-  const distance = thrower.value;
-  const dart = document.createElement('div');
-  dart.classList.add('dart');
-  dart.style.left = distance + 'px';
-  dartboard.appendChild(dart);
-}
-const button = document.querySelector('button');
-button.addEventListener('click', throwDart);
-
-        </script>
     </body>
 </html>
