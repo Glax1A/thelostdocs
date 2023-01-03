@@ -4,92 +4,43 @@
 
     </head>
     <body>
-<!-- Create a div to hold the dartboard image and a div to display the score -->
-<div id="dartboard">
-    <img src="dartboard.png" alt="Dartboard">
-  </div>
-  <div id="score"></div>
-  
-  <!-- Create a form with a number input field and a submit button -->
-  <form id="throw-form">
-    <label for="throw-distance">Enter the distance you want to throw the dart (in meters):</label><br>
-    <input type="number" id="throw-distance" min="1" max="10" step="0.1"><br>
-    <input type="submit" value="Throw">
-  </form>
-  
-  <style>
-    /* Style the dartboard and score display */
-#dartboard {
-  width: 300px;
-  height: 300px;
-  margin: 0 auto;
+        <div id="dartboard">
+        </div>
+        
+        <input type="number" id="thrower">
+        <style>
+            #dartboard {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: url(dartboard.jpg);
+  position: relative;
 }
 
-#dartboard img {
-  width: 100%;
-  height: 100%;
-  background-image: "https://static.wikia.nocookie.net/club-penguin-rewritten/images/4/4d/Dart_Board.png";
+#thrower {
+  width: 50px;
+  height: 50px;
+  border: none;
+  background: url(dart.png);
+  position: absolute;
 }
 
-#score {
-  text-align: center;
-  font-size: 24px;
-  margin: 20px 0;
+        </style>
+
+        <script>
+            const dartboard = document.querySelector('#dartboard');
+const thrower = document.querySelector('#thrower');
+
+function throwDart() {
+  const distance = thrower.value;
+  const dart = document.createElement('div');
+  dart.classList.add('dart');
+  dart.style.left = distance + 'px';
+  dartboard.appendChild(dart);
 }
+const button = document.querySelector('button');
+button.addEventListener('click', throwDart);
 
-/* Style the form */
-#throw-form {
-  width: 300px;
-  margin: 0 auto;
-}
-
-#throw-form input[type="number"] {
-  width: 100%;
-  height: 40px;
-  font-size: 18px;
-  margin: 10px 0;
-}
-
-#throw-form input[type="submit"] {
-  width: 100%;
-  height: 40px;
-  font-size: 18px;
-}
-
-  </style>
-
-  <script>
-    // Get the form and input field
-const form = document.querySelector('#throw-form');
-const input = document.querySelector('#throw-distance');
-
-// Listen for form submission
-form.addEventListener('submit', function(event) {
-  // Prevent the form from submitting
-  event.preventDefault();
-
-  // Get the throw distance
-  const distance = input.value;
-
-  // Calculate the score based on the throw distance
-  let score = 0;
-  if (distance < 1) {
-    score = 0;
-  } else if (distance < 2) {
-    score = 50;
-  } else if (distance < 3) {
-    score = 25;
-  } else if (distance < 4) {
-    score = 10;
-  } else {
-    score = 5;
-  }
-
-  // Display the score
-  const scoreElement = document.querySelector('#score');
-  scoreElement.innerHTML = `Your score: ${score} points`;
-});
-
-  </script>
+        </script>
     </body>
 </html>
