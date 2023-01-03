@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+      <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+<title>money clicker 2.0</title>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"> </script>
+<script>
+  var clicker={
+   dollars:0,
+   upgrades: {
+       ATM:{
+           amount:0,
+           cost:10,
+           dps:1,
+           name:"ATM"
+       },
+       Banks:{
+           amount:0,
+           cost:30,
+           dps:5,
+           name:"Banks"
+       },
+       Money_Factory:{
+        amount:0,
+        cost:105,
+        dps:10,
+        name:"Money Factory"
+       },
+        Money_printer:{
+        amount:0,
+        cost:5000,
+        dps:100,
+        name:"Money printer"
+       },
+        jumbo_money_printer:{
+        amount:0,
+        cost:10000,
+        dps:1000,
+        name:"jumbo money printer"
+       },
+             extra_jumbo_money_printer:{
+        amount:0,
+        cost:10000000,
+        dps:1000000,
+        name:" extra jumbo money printer"
+       },
+         
+   
+  
+   }
+
+  };
+  var delay = 0;
+  function thing_clicked(thing){
+       if(clicker.upgrades[thing].cost <= clicker.dollars){
+           clicker.dollars-= clicker.upgrades[thing].cost;
+      clicker.upgrades[thing].amount++;
+      clicker.upgrades[thing].cost += Math.round(clicker.upgrades[thing].cost*0.15);
+      update_upgrades();
+       }
+  }
+  function update_upgrades(){
+   document.querySelector("#upgrades").innerHTML="";
+   for(i in clicker.upgrades){
+       document.querySelector("#upgrades").innerHTML+= `<br> <button onclick="thing_clicked('${i}')">${clicker.upgrades
+           [i].name}</button> you have ${clicker.upgrades[i].amount}.Cost: ${clicker.upgrades[i].cost}`;
+   }
+  }
+  function updatecount(){
+   if(Cookies.get("clicker") != null && Cookies.get("clicker") != "undefined"){
+       var clicker1 =JSON.parse(Cookies.get("clicker"));
+       for(i in clicker.upgrades){
+           if (clicker1.upgrades[i] == null){
+              clicker1.upgrades[i] = clicker.upgrades[i];
+           }
+ 
+       }
+       clicker = clicker1;
+   }
+       update_upgrades();
+   setInterval(() => {
+       for(i in clicker.upgrades){
+           clicker.dollars+=clicker.upgrades[i].amount*clicker.upgrades[i].dps/20
+       }
+   document.querySelector("#dollars").innerHTML="you have"+String(clicker.dollars).split(".")[0]+"dollars"
+   delay++;
+   if (delay >=40){
+       Cookies.set("clicker",JSON.stringify(clicker), {expires:10})
+       delay = 0;
+   }
+   },50);
+  }
+</script>
+</head>
+<body onload="updatecount()">
+<h1 id="dollars">you have __$0__ dollars</h1>
+<button onclick="clicker.dollars++">get 1$</button>
+<div id="upgrades">
+  
+</div>
+ <style>
+button{
+    background-color:rgb(150, 226, 150);
+    color:rgb(3, 3, 3);
+    font-size: 80px;
+    border-radius: 200px;
+    border-width: 20px;
+    border-color:rgb(53, 53, 53);
+ }
+  
+ h1{
+    color:rgb(118, 243, 118);
+    font-size:90px;
+ }
+ body{
+    background-color:black;
+    color:rgb(255, 255, 255);
+   font-size: 50px;
+ }
+ 
+    </style>
+</body>
+
+</html>
