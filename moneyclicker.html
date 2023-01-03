@@ -15,6 +15,27 @@
 <title>Money Clicker</title>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"> </script>
 <script>
+// set the delay to 5 minutes (5 * 60 * 1000 milliseconds)
+const delay = 5 * 60 * 1000;
+
+// create the button and set its text and onclick function
+const button = document.createElement("button");
+button.textContent = "Get 100 dollars";
+button.onclick = function() {
+  clicker.dollars += 100;
+  updatecount();
+};
+
+// add the button to the page after the delay
+setTimeout(function() {
+  document.body.appendChild(button);
+}, delay);
+
+
+
+
+
+
   var clicker={
    dollars:0,
    upgrades: {
