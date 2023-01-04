@@ -2,4 +2,5 @@
 User-agent: *
 Disallow: 
 Disallow: thelostdocs.com/congratsonsuccess.html
+Disallow: thelostdocs.com/pcdownload.html
 Sitemap: https://thelostdocs.com/sitemap.xml
