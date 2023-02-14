@@ -9,7 +9,7 @@
 <body>
     <button id="random-btn">Go to a random website</button>
 <br><br>
-<iframe id="random-iframe" width="auto" height="auto"></iframe>
+<iframe id="random-iframe"></iframe>
 
 <style>
     button {
@@ -27,10 +27,10 @@
     document.getElementById("random-btn").addEventListener("click", function() {
   // An array of websites
   var websites = [
-    "https://www.google.com",
-    "https://www.facebook.com",
-    "https://www.wikipedia.org",
-    "https://www.youtube.com",
+    "www.endless.horse",
+    "https://www.thelostdocs.com/mandelbrotset.html",
+    "https://www.boredbutton.com",
+    "https://www.thelostdocs.com/guesscode.html",
     "https://www.amazon.com"
   ];
   
@@ -40,6 +40,12 @@
   // Use the random number to get a random website from the array
   var randomWebsite = websites[randomIndex];
   
+  //auto iframe size
+  iframe.src = randomWebsite;
+    iframe.style.height = window.innerHeight + "px";
+    iframe.style.width = window.innerWidth + "px";
+
+
   // Load the random website into the iframe
   document.getElementById("random-iframe").src = randomWebsite;
 });
