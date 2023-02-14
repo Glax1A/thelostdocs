@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Site</title>
+</head>
+<body>
+    <button id="random-btn">Go to a random website</button>
+<br><br>
+<iframe id="random-iframe" width="600" height="400"></iframe>
+
+<style>
+    button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: green;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+}
+
+</style>
+<script>
+    document.getElementById("random-btn").addEventListener("click", function() {
+  // An array of websites
+  var websites = [
+    "https://www.google.com",
+    "https://www.facebook.com",
+    "https://www.wikipedia.org",
+    "https://www.youtube.com",
+    "https://www.amazon.com"
+  ];
+  
+  // Generate a random number between 0 and the length of the websites array
+  var randomIndex = Math.floor(Math.random() * websites.length);
+  
+  // Use the random number to get a random website from the array
+  var randomWebsite = websites[randomIndex];
+  
+  // Load the random website into the iframe
+  document.getElementById("random-iframe").src = randomWebsite;
+});
+
+</script>
+</body>
+</html>
