@@ -9,7 +9,7 @@
 <body>
     <button id="random-btn">Go to a random website</button>
 <br><br>
-<iframe id="random-iframe"></iframe>
+<iframe id="random-iframe" width="" height=""></iframe>
 
 <style>
     button {
@@ -39,12 +39,6 @@
   
   // Use the random number to get a random website from the array
   var randomWebsite = websites[randomIndex];
-  
-  //auto iframe size
-  iframe.src = randomWebsite;
-    iframe.style.height = window.innerHeight + "px";
-    iframe.style.width = window.innerWidth + "px";
-
 
   // Load the random website into the iframe
   document.getElementById("random-iframe").src = randomWebsite;
