@@ -129,7 +129,7 @@
 <centre>
 <body onload="updatecount()">
 <h1 id="dollars">You have $&nbsp;&nbsp;  __$0__ </h1>
-<kbd data-key="13"><button class="sound" Enter onclick="clicker.dollars++">get 1$</button></kbd>
+<kbd data-key="13"><button class="sound" Enter onclick="clicker.dollars++"; onclick="playSound();>get 1$</button></kbd>
 <div id="upgrades">
   
 </div>
@@ -154,7 +154,14 @@ button{
  }
  
     </style>
-    <audio data-key="13" class="sound" src="sounds/ching.wav"></audio></centre>
+
+  <audio id="audio" src="sounds/ching.wav"></audio>
+<script>
+function playSound() {
+  var audio = document.getElementById("audio");
+  audio.play();
+}
+</script>
 
 </body>
 
