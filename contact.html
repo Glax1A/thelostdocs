@@ -1,0 +1,33 @@
+<html>
+
+<?php
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+    
+    $to = 'redadmiral1118@gmail.com';
+    $subject = 'New Contact Form Submission';
+    $body = "Name: $name\nEmail: $email\nMessage: $message";
+    $headers = "From: $email";
+    
+    if(mail($to, $subject, $body, $headers)) {
+        echo 'Thank you for your message!';
+    } else {
+        echo 'There was a problem sending your message. Please try again later.';
+    }
+}
+?>
+
+<form method="post" action="">
+    <label for="name">Name:</label>
+    <input type="text" name="name" required>
+    <label for="email">Email:</label>
+    <input type="email" name="email" required>
+    <label for="message">Message:</label>
+    <textarea name="message" required></textarea>
+    <input type="submit" value="Send">
+</form>
+
+
+</html>
