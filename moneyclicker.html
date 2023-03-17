@@ -125,22 +125,6 @@
    },50);
   }
   
-  
-  //selltest
-  
-  def sell(item_name, quantity):
-    if item_name in inventory:
-        if inventory[item_name] >= quantity:
-            inventory[item_name] -= quantity
-            funds += quantity * item_prices[item_name]
-            return f"Sold {quantity} {item_name}(s) for {quantity * item_prices[item_name]} coins."
-        else:
-            return "Not enough items in inventory to sell."
-    else:
-        return "Item not found in inventory."
-
-  
-  
 </script>
 </head>
 <centre>
