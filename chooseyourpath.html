@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Spy Adventure Game</title>
+  </head>
+  <body>
+    <div id="story"></div>
+    <div id="options"></div>
+
+<style>
+    body {
+  font-family: Arial, sans-serif;
+}
+
+#story {
+  margin-bottom: 20px;
+}
+
+#options button {
+  margin-right: 10px;
+}
+
+</style>
+
+    <script>
+
+const storyElement = document.getElementById('story');
+const optionsElement = document.getElementById('options');
+
+const story = {
+  intro: {
+    text: "You are a spy working for the CIA. Your mission is to steal a top secret document from a high-security building in the heart of Moscow. You have three different ways to enter the building: the front door, the roof, or a secret tunnel.",
+    options: [
+      {
+        text: "Enter through the front door",
+        next: "frontDoor"
+      },
+      {
+        text: "Climb onto the roof and enter from there",
+        next: "roof"
+      },
+      {
+        text: "Use the secret tunnel to sneak in",
+        next: "tunnel"
+      }
+    ]
+  },
+  frontDoor: {
+    text: "You walk up to the front door and present your fake ID to the security guard. He looks at it suspiciously and asks you a question. What is the name of the director of the CIA?",
+    options: [
+      {
+        text: "John Smith",
+        next: "gameOver"
+      },
+      {
+        text: "Michael Pompeo",
+        next: "inside"
+      },
+      {
+        text: "James Comey",
+        next: "gameOver"
+      }
+    ]
+  },
+  roof: {
+    text: "You climb onto the roof of the building and find a window that is slightly open. You try to open it further but it makes a loud noise and an alarm goes off. You have to run away before the guards catch you.",
+    options: [
+      {
+        text: "Try again from the front door",
+        next: "frontDoor"
+      },
+      {
+        text: "Find another way in",
+        next: "tunnel"
+      }
+    ]
+  },
+  tunnel: {
+    text: "You find the entrance to the secret tunnel and enter it. The tunnel is dark and damp, and you have to use a flashlight to find your way. You eventually reach the end of the tunnel and find yourself in a small room with a locked door. You need to find the key to unlock the door.",
+    options: [
+      {
+        text: "Search the room",
+        next: "searchRoom"
+      },
+      {
+        text: "Try to pick the lock",
+        next: "pickLock"
+      }
+    ]
+  },
+  searchRoom: {
+    text: "You search the room and find the key hidden under a loose brick in the wall. You unlock the door and enter the building unnoticed.",
+    options: [
+      {
+        text: "Continue",
+        next: "inside"
+      }
+    ]
+  },
+  pickLock: {
+    text: "You try to pick the lock but you're not very good at it. The guards hear the noise and catch you before you can escape.",
+    options: [
+      {
+        text: "Try again from the tunnel",
+        next: "tunnel"
+      }
+    ]
+  },
+}
+
+
+    </script>
+  </body>
+</html>
