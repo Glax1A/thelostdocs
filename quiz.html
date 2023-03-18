@@ -90,64 +90,6 @@ function disableOptions() {
 	}
 }
 
-//new
-
-
-let isAnswered = false;
-
-function checkAnswer(selectedAnswerIndex) {
-	if (isAnswered) {
-		return;
-	}
-	isAnswered = true;
-	const correctAnswerIndex = questions[currentQuestionIndex].correctAnswerIndex;
-	if (selectedAnswerIndex === correctAnswerIndex) {
-		score++;
-		document.getElementById("result").innerHTML = "Correct!";
-		document.getElementById("score").innerHTML = "Score: " + score;
-	} else {
-		score--;
-		document.getElementById("result").innerHTML = "Incorrect!";
-		document.getElementById("score").innerHTML = "Score: " + score;
-	}
-	disableOptions();
-	document.getElementById("next-btn").disabled = false;
-}
-
-function disableOptions() {
-	for (let i = 0; i < 4; i++) {
-		document.getElementById("option" + i).disabled = true;
-	}
-}
-
-function enableOptions() {
-	for (let i = 0; i < 4; i++) {
-		document.getElementById("option" + i).disabled = false;
-	}
-}
-
-function nextQuestion() {
-	if (!isAnswered) {
-		return;
-	}
-	isAnswered = false;
-	if (currentQuestionIndex === questions.length - 1) {
-		// Last question, show score
-		document.getElementById("question").innerHTML = "Final Score: " + score;
-		document.getElementById("options").style.display = "none";
-		document.getElementById("result").style.display = "none";
-		document.getElementById("next-btn").style.display = "none";
-	} else {
-		currentQuestionIndex++;
-		showQuestion();
-		enableOptions();
-		document.getElementById("next-btn").disabled = true;
-	}
-}
-
-
-
-
     </script>
 
     <style>
