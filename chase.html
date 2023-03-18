@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chase Game</title>
+</head>
+<body>
+	<div class="game-container">
+		<div class="scoreboard">
+			<span>Score:</span> <span id="score">0</span>
+		</div>
+		<div class="game-area">
+			<div id="player"></div>
+			<div id="target"></div>
+		</div>
+	</div>
+
+    <style>
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.game-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	background-color: #f7f7f7;
+}
+
+.scoreboard {
+	font-size: 2rem;
+	margin-bottom: 2rem;
+}
+
+.game-area {
+	position: relative;
+	width: 800px;
+	height: 600px;
+	border: 5px solid black;
+}
+
+#player {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 50px;
+	height: 50px;
+	background-color: red;
+	border-radius: 50%;
+}
+
+#target {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 50px;
+	height: 50px;
+	background-color: green;
+	border-radius: 50%;
+}
+
+.game-over {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 3rem;
+	color: red;
+	text-align: center;
+}
+
+
+    </style>
+
+	<script>
+
+const player = document.getElementById('player');
+const target = document.getElementById('target');
+const scoreBoard = document.getElementById('score');
+const gameOverText = document.querySelector('.game-over');
+
+let score = 0;
+let gameOver = false;
+
+function updateScore() {
+	scoreBoard.innerText = score;
+}
+
+function moveTarget() {
+	const x = Math.floor(Math.random() * 700);
+	const y = Math.floor(Math.random() * 500);
+
+	target.style.top = y + 'px';
+	target.style.left = x + 'px';
+}
+
+function checkCollision() {
+	const playerX = player.offsetLeft;
+	const playerY = player.offsetTop;
+	const targetX = target.offsetLeft;
+	const targetY = target.offsetTop;
+
+	if (playerX + player.offsetWidth > targetX && playerX < targetX + target.offsetWidth &&
+		playerY + player.offsetHeight > targetY && playerY < targetY + target.offsetHeight) {
+		score++;
+		updateScore();
+		moveTarget();
+	}
+}
+
+function gameOverFunction() {
+	gameOver = true;
+	gameOverText.innerText = "Game Over";
+}
+
+function movePlayer(e) {
+	if (gameOver) {
+		return;
+	}
+	switch(e.keyCode) {
+		case 37:
+			player.style.left = player.offsetLeft - 10 + 'px';
+			break;
+		case 38:
+			player.style.top = player.offsetTop - 10 + 'px';
+			break;
+		case 39:
+			player.style.left = player.offsetLeft + 10 + 'px';
+			break;
+		case 40:
+			player.style.top = player.offsetTop + 10 + 'px';
+			break;
+	}
+	checkCollision();
+}
+
+document.addEventListener('keydown', movePlayer);
+
+
+    </script>
+</body>
+</html>
