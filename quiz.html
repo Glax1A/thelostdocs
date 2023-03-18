@@ -8,40 +8,16 @@
 		<h1>Quiz Game</h1>
 		<p id="question"></p>
 		<div class="options">
-			<button id="option0" onclick="checkAnswer(0)"></button>
-			<button id="option1" onclick="checkAnswer(1)"></button>
-			<button id="option2" onclick="checkAnswer(2)"></button>
-			<button id="option3" onclick="checkAnswer(3)"></button>
+			<button id="option0" onclick="checkAnswer(0)" disabled></button>
+			<button id="option1" onclick="checkAnswer(1)" disabled></button>
+			<button id="option2" onclick="checkAnswer(2)" disabled></button>
+			<button id="option3" onclick="checkAnswer(3)" disabled></button>
 		</div>
 		<p id="result"></p>
+		<p id="score"></p>
 		<button id="newQuestionButton" onclick="generateQuestion()">New Question</button>
 	</div>
-<style>
 
-.container {
-	max-width: 500px;
-	margin: 0 auto;
-	text-align: center;
-	padding-top: 50px;
-}
-
-button {
-	background-color: #4CAF50;
-	color: white;
-	padding: 10px 20px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	margin: 10px;
-}
-
-#result {
-	font-weight: bold;
-	margin-top: 20px;
-}
-
-
-</style>
 	<script>
 
 const questions = [
@@ -73,6 +49,8 @@ const questions = [
 ];
 
 let currentQuestionIndex;
+let score = 0;
+let hasAnswered = false;
 
 function generateQuestion() {
 	const randomNumber = Math.floor(Math.random() * questions.length);
@@ -82,20 +60,73 @@ function generateQuestion() {
 	document.getElementById("question").innerHTML = question;
 	for (let i = 0; i < answers.length; i++) {
 		document.getElementById("option" + i).innerHTML = answers[i];
+		document.getElementById("option" + i).disabled = false;
 	}
 	document.getElementById("result").innerHTML = "";
+	hasAnswered = false;
 }
 
 function checkAnswer(selectedAnswerIndex) {
+	if (hasAnswered) {
+		return;
+	}
+	hasAnswered = true;
 	const correctAnswerIndex = questions[currentQuestionIndex].correctAnswerIndex;
 	if (selectedAnswerIndex === correctAnswerIndex) {
+		score++;
 		document.getElementById("result").innerHTML = "Correct!";
+		document.getElementById("score").innerHTML = "Score: " + score;
 	} else {
+		score--;
 		document.getElementById("result").innerHTML = "Incorrect!";
+		document.getElementById("score").innerHTML = "Score: " + score;
+	}
+	disableOptions();
+}
+
+function disableOptions() {
+	for (let i = 0; i < 4; i++) {
+		document.getElementById("option" + i).disabled = true;
 	}
 }
 
-
     </script>
+
+    <style>
+        
+        .container {
+	max-width: 500px;
+	margin: 0 auto;
+	text-align: center;
+	padding-top: 50px;
+}
+
+button {
+	background-color: #4CAF50;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	margin: 10px;
+}
+
+button:disabled {
+	background-color: gray;
+	cursor: not-allowed;
+}
+
+#result {
+	font-weight: bold;
+	margin-top: 20px;
+}
+
+#score {
+	font-weight: bold;
+	margin-top: 20px;
+}
+
+        </style>
+
 </body>
 </html>
