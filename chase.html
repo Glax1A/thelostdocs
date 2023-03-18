@@ -76,8 +76,8 @@
 
 			if (distance < 150) {
 				const angle = Math.atan2(deltaY, deltaX);
-				const directionX = Math.cos(angle) * 10;
-				const directionY = Math.sin(angle) * 10;
+				const directionX = Math.cos(angle) * -10;
+				const directionY = Math.sin(angle) * -10;
 
 				target.style.left = targetPosition.left - directionX + "px";
 				target.style.top = targetPosition.top - directionY + "px";
