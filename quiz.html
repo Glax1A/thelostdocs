@@ -17,7 +17,28 @@
 		<p id="result"></p>
 		<p id="score"></p>
 		<button id="newQuestionButton" onclick="generateQuestion()">New Question</button>
+       <p>Questions answered:</p> <b><p id="click-count">0</p></b>
 	</div>
+
+<script>
+
+// Get the button and the click count element
+const clickButton = document.getElementById("newQuestionButton");
+const clickCount = document.getElementById("click-count");
+
+// Initialize the click count to 0
+let count = 0;
+
+// Add an event listener to the button
+clickButton.addEventListener("click", () => {
+  // Increment the count and update the click count element
+  count++;
+  clickCount.innerText = count;
+});
+
+
+</script>
+
 
 	<script>
 
