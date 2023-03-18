@@ -21,31 +21,320 @@
 	<script>
 
 const questions = [
-	{
-		question: "What is the capital of France?",
-		answers: ["Paris", "London", "Berlin", "Madrid"],
-		correctAnswerIndex: 0
-	},
-	{
-		question: "What is the largest ocean in the world?",
-		answers: ["Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Arctic Ocean"],
-		correctAnswerIndex: 0
-	},
-	{
-		question: "What is the currency of Japan?",
-		answers: ["Yen", "Dollar", "Euro", "Pound"],
-		correctAnswerIndex: 0
-	},
-	{
-		question: "What is the highest mountain in the world?",
-		answers: ["Mount Everest", "Mount Kilimanjaro", "Mount McKinley", "Mount Fuji"],
-		correctAnswerIndex: 0
-	},
-	{
-		question: "What is the smallest country in the world?",
-		answers: ["Vatican City", "Monaco", "San Marino", "Liechtenstein"],
-		correctAnswerIndex: 0
-	}
+
+
+{
+question: "What is the currency of India?",
+answers: ["Euro", "Yen", "Rupee", "Pound"],
+correctAnswerIndex: 2
+},
+
+{
+question: "What is the name of the world's highest mountain?",
+answers: ["Mount Everest", "K2", "Kangchenjunga", "Lhotse"],
+correctAnswerIndex: 0
+},
+
+{
+question: "Who is the founder of Microsoft?",
+answers: ["Larry Page", "Steve Jobs", "Mark Zuckerberg", "Bill Gates"],
+correctAnswerIndex: 3
+},
+
+{
+question: "Who wrote the novel 'Pride and Prejudice'?",
+answers: ["Mary Shelley", "Emily Bronte", "Charlotte Bronte", "Jane Austen"],
+correctAnswerIndex: 3
+},
+
+{
+question: "Which country has the world's largest population?",
+answers: ["China", "India", "United States", "Russia"],
+correctAnswerIndex: 0
+},
+
+{
+question: "What is the capital of Spain?",
+answers: ["Barcelona", "Madrid", "Valencia", "Seville"],
+correctAnswerIndex: 1
+},
+
+{
+question: "What is the name of the smallest planet in our solar system?",
+answers: ["Mercury", "Mars", "Venus", "Earth"],
+correctAnswerIndex: 0
+},
+
+{
+question: "Who wrote the play 'Romeo and Juliet'?",
+answers: ["Samuel Beckett", "Oscar Wilde", "George Bernard Shaw", "William Shakespeare"],
+correctAnswerIndex: 3
+},
+
+{
+question: "What is the name of the highest waterfall in the world?",
+answers: ["Iguazu Falls", "Niagara Falls", "Angel Falls", "Victoria Falls"],
+correctAnswerIndex: 2
+},
+
+{
+question: "Who painted the ceiling of the Sistine Chapel?",
+answers: ["Michelangelo", "Leonardo da Vinci", "Raphael", "Donatello"],
+correctAnswerIndex: 0
+},
+
+{
+question: "What is the name of the river that runs through Egypt?",
+answers: ["Mississippi", "Amazon", "Nile", "Ganges"],
+correctAnswerIndex: 2
+},
+
+{
+question: "What is the capital of France?",
+answers: ["Paris", "London", "Berlin", "Madrid"],
+correctAnswerIndex: 0
+},
+
+{
+question: "What is the largest ocean in the world?",
+answers: ["Atlantic Ocean", "Pacific Ocean", "Indian Ocean", "Arctic Ocean"],
+correctAnswerIndex: 1
+},
+
+{
+question: "What is the currency of Japan?",
+answers: ["Pound", "Dollar", "Euro", "Yen"],
+correctAnswerIndex: 3
+},
+
+{
+question: "What is the highest mountain in the world?",
+answers: ["Mount Kilimanjaro", "Mount Everest", "Mount McKinley", "Mount Fuji"],
+correctAnswerIndex: 1
+},
+
+{
+question: "What is the smallest country in the world?",
+answers: ["Liechtenstein", "Monaco", "San Marino", "Vatican City"],
+correctAnswerIndex: 3
+},
+
+{
+question: "Who wrote the Harry Potter series?",
+answers: ["George R.R. Martin", "Stephenie Meyer", "Suzanne Collins", "J.K. Rowling"],
+correctAnswerIndex: 3
+},
+
+{
+question: "What is the largest country in the world by land area?",
+answers: ["China", "Russia", "United States", "Canada"],
+correctAnswerIndex: 1
+},
+
+{
+question: "What is the name of the second man to walk on the moon?",
+answers: ["Neil Armstrong", "Michael Collins", "Buzz Aldrin", "Alan Shepard"],
+correctAnswerIndex: 2
+},
+
+{
+question: "Who painted the Mona Lisa?",
+answers: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
+correctAnswerIndex: 2
+},
+
+{
+question: "What is the largest mammal in the world?",
+answers: ["Blue Whale", "African Elephant", "Giraffe", "Hippopotamus"],
+correctAnswerIndex: 0
+},
+
+{
+question: "Who directed the movie 'The Godfather'?",
+answers: ["Francis Ford Coppola", "Steven Spielberg", "Martin Scorsese", "Alfred Hitchcock"],
+correctAnswerIndex: 0
+},
+
+{
+question: "Which country won the 2022 FIFA World Cup?",
+answers: ["France", "Brazil", "Qatar", "Argentina"],
+correctAnswerIndex: 3
+},
+
+{
+question: "What is the largest planet in our solar system?",
+answers: ["Mars", "Venus", "Jupiter", "Saturn"],
+correctAnswerIndex: 2
+},
+
+{
+question: "Who wrote the book 'To Kill a Mockingbird'?",
+answers: ["Harper Lee", "F. Scott Fitzgerald", "John Steinbeck", "Ernest Hemingway"],
+correctAnswerIndex: 0
+},
+
+{
+question: "In what year did the Titanic sink?",
+answers: ["1910", "1912", "1914", "1916"],
+correctAnswerIndex: 1
+},
+
+{
+question: "Which country is known as the 'Land of the Rising Sun'?",
+answers: ["China", "Thailand", "Japan", "South Korea"],
+correctAnswerIndex: 2
+},
+
+{
+question: "Who invented the telephone?",
+answers: ["Alexander Graham Bell", "Thomas Edison", "Benjamin Franklin", "Nikola Tesla"],
+correctAnswerIndex: 0
+},
+
+{
+question: "What is the largest desert in the world?",
+answers: ["Arabian", "Gobi", "Kalahari", "Sahara"],
+correctAnswerIndex: 3
+},
+
+{
+question: "What is the only bird that can fly backwards?",
+answers: ["Hummingbird", "Eagle", "Penguin", "Ostrich"],
+correctAnswerIndex: 0
+},
+
+{
+question: "What is the only continent with no active volcanoes?",
+answers: ["Europe", "Africa", "Antarctica", "South America"],
+correctAnswerIndex: 2
+},
+
+{
+question: "What was the first toy to be advertised on television?",
+answers: ["Barbie Doll", "Lego", "Mr. Potato Head", "Slinky"],
+correctAnswerIndex: 3
+},
+
+{
+question: "Which country gifted the Statue of Liberty to the United States?",
+answers: ["France", "Spain", "United Kingdom", "Netherlands"],
+correctAnswerIndex: 0
+},
+
+{
+question: "Who was the first president of the United States?",
+answers: ["Thomas Jefferson", "John Adams", "George Washington", "Abraham Lincoln"],
+correctAnswerIndex: 2
+},
+
+{
+question: "What was the first feature-length animated movie ever released?",
+answers: ["Bambi", "Cinderella", "Snow White and the Seven Dwarfs", "Sleeping Beauty"],
+correctAnswerIndex: 2
+},
+
+{
+question: "What classic movie features a giant gorilla climbing the Empire State Building?",
+answers: ["Godzilla", "King Kong", "The Beast from 20,000 Fathoms", "The War of the Worlds"],
+correctAnswerIndex: 1
+},
+
+{
+question: "What is the most abundant gas in Earth's atmosphere?",
+answers: ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"],
+correctAnswerIndex: 2
+},
+
+{
+question: "What is the study of fossils called?",
+answers: ["Geology", "Paleontology", "Archaeology", "Biology"],
+correctAnswerIndex: 1
+},
+
+{
+question: "What is the most widely spoken language in the world?",
+answers: ["Mandarin Chinese", "English", "Spanish", "Hindi"],
+correctAnswerIndex: 0
+},
+
+{
+question: "What is the largest species of shark?",
+answers: ["Tiger shark", "Hammerhead shark", "Great White shark", "Whale shark"],
+correctAnswerIndex: 3
+},
+
+{
+question: "What is the largest flower in the world?",
+answers: ["Sunflower", "Orchid", "Rafflesia", "Rose"],
+correctAnswerIndex: 2
+},
+
+{
+question: "How many times a second can a woodpecker peck?",
+answers: ["10-15 times", "20-30 times", "40-50 times", "60-70 times"],
+correctAnswerIndex: 1
+},
+
+{
+question: "How many bones does a human skeleton have?",
+answers: ["202", "206", "210", "214"],
+correctAnswerIndex: 1
+},
+
+{
+question: "How many feathers does a traditional shuttlecock have?",
+answers: ["14", "16", "18", "20"],
+correctAnswerIndex: 1
+},
+
+{
+question: "When was the Eiffel Tower built?",
+answers: ["1889", "1899", "1909", "1919"],
+correctAnswerIndex: 0
+},
+
+{
+question: "Where was the highest temperature ever recorded?",
+answers: ["Kebili, Tunisia", "Tirat Tsvi, Israel", "Aziziyah, Libya", "Death Valley, USA"],
+correctAnswerIndex: 3
+},
+
+{
+question: "How many countries are in the world?",
+answers: ["187", "197", "207", "217"],
+correctAnswerIndex: 1
+},
+
+{
+question: "What or where is the world's deepest man-made hole?",
+answers: ["The Grand Canyon", "The Mariana Trench", "The Kola Superdeep Borehole", "The Soudan Mine"],
+correctAnswerIndex: 2
+},
+
+{
+question: "What was the name of the machine used by Germans to encrypt messages in WWI?",
+answers: ["Codebreaker", "Colossus", "Cipher", "Enigma"],
+correctAnswerIndex: 3
+},
+
+{
+question: "How many stripes are there on the US flag?",
+answers: ["10", "11", "12", "13"],
+correctAnswerIndex: 3
+},
+
+{
+question: "What is the name of the giant snow monster that guards Elsa in Frozen?",
+answers: ["Sven", "Olaf", "Marshmallow", "Yakul"],
+correctAnswerIndex: 2
+},
+
+{
+question: "How many sides does a dodecahedron have?",
+answers: ["10", "12", "20", "24"],
+correctAnswerIndex: 1
+},
+
 ];
 
 let currentQuestionIndex;
