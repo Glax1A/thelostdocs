@@ -9,8 +9,8 @@
         <h1>Would You Rather?</h1>
         <div class="question">
           <p>Would you rather eat pizza every day or eat sushi every day?</p>
-          <button onclick="chooseOption('pizza')">Pizza</button>
-          <button onclick="chooseOption('sushi')">Sushi</button>
+          <button onclick="chooseOption('pizza')">First Option</button>
+          <button onclick="chooseOption('sushi')">Second Option</button>
           <p id="results"></p>
           <button id="nextBtn" onclick="nextQuestion()">Next Question</button>
         </div>
@@ -82,9 +82,69 @@ function nextQuestion() {
   sushiCount = 0;
   document.getElementById('results').innerHTML = '';
   const questions = [
-    'Would you rather be able to fly or be able to breathe underwater?',
-    'Would you rather have super strength or be able to read minds?',
-    'Would you rather be a famous musician or a famous actor/actress?'
+'Would you rather be able to fly or be able to breathe underwater?',
+'Would you rather have super strength or be able to read minds?',
+'Would you rather be a famous musician or a famous actor/actress?',
+'Would you rather live in a world with no electricity or no running water?',
+'Would you rather be able to teleport anywhere in the world or be able to speak any language fluently?',
+'Would you rather have the ability to freeze time or the ability to time travel?',
+'Would you rather be a superhero or a supervillain?',
+'Would you rather be able to talk to animals or speak every human language?',
+'Would you rather have a photographic memory or the ability to forget anything you want?',
+'Would you rather be able to fly or be invisible?',
+'Would you rather be rich and famous but lonely or poor and unknown but surrounded by loving friends and family?',
+'Would you rather be a wizard or a vampire?',
+'Would you rather be stranded on a deserted island with only one other person or with a group of people?',
+'Would you rather live in a world without music or without movies?',
+'Would you rather have the power to heal any illness or injury or the power to bring people back to life?',
+'Would you rather live in a world with no internet or no cell phones?',
+'Would you rather be a character in a romantic comedy or an action movie?',
+'Would you rather be a time traveler or an explorer of space?',
+'Would you rather be able to talk to your past self or your future self?',
+'Would you rather have the power to control the weather or the power to control the minds of others?',
+'Would you rather have a bottomless bowl of your favorite food or a bottomless cup of your favorite drink?',
+'Would you rather have the power to bring world peace or the power to end world hunger?',
+'Would you rather have a personal chef or a personal assistant?',
+'Would you rather have the ability to time travel or the ability to see into the future?',
+'Would you rather have a photographic memory or be able to never forget a face?',
+'Would you rather live in a world without books or without music?',
+'Would you rather be stranded on a deserted island with your worst enemy or with a complete stranger?',
+'Would you rather have the power of telekinesis or the power of telepathy?',
+'Would you rather live in a world without art or without science?',
+'Would you rather be the smartest person in the world or the most athletic person in the world?',
+'Would you rather have the ability to control fire or water?',
+'Would you rather have the power of flight or the power of invisibility?',
+'Would you rather be able to speak with animals or have the ability to control them?',
+'Would you rather be stuck in a room with spiders or snakes?',
+'Would you rather be a mermaid or a werewolf?',
+'Would you rather have the ability to fly or be able to breathe underwater?',
+'Would you rather be a famous athlete or a famous musician?',
+'Would you rather be able to talk to the dead or see the future?',
+'Would you rather live in a world without laughter or without love?',
+'Would you rather have the ability to create anything you want or the ability to read minds?',
+'Would you rather have the power of super speed or the power of super strength?',
+'Would you rather be able to transform into any animal or have the ability to shapeshift into any person?',
+'Would you rather be a character in a horror movie or a comedy movie?',
+'Would you rather live in a world where you are always hot or always cold?',
+'Would you rather be able to communicate with plants or with ghosts?',
+'Would you rather be able to control the elements (earth, wind, fire, water) or have the power of telekinesis?',
+'Would you rather live in a world where magic is real or where superpowers are real?',
+'Would you rather be able to speak all human languages fluently or speak to animals fluently?',
+'Would you rather live in a world where you can fly or where you have super strength?',
+'Would you rather be a superhero or a spy?',
+'Would you rather be a vampire or a werewolf?',
+'Would you rather live in a world with no crime or no poverty?',
+'Would you rather have the power of invisibility or the power of teleportation?',
+'Would you rather be a character in a fantasy movie or a sci-fi movie?',
+'Would you rather be able to time travel to the past or the future?',
+'Would you rather live in a world without social media or without video games?',
+'Would you rather be a famous artist or a famous writer?',
+'Would you rather have the power of mind control or the power of telepathy?',
+'Would you rather live in a world with no rules or with too many rules?',
+'Would you rather be able to breathe underwater or be able to survive in space without a spacesuit?',
+'Would you rather have the power of regeneration or the power of shape-shifting?',
+'Would you rather live in a world with only one season or with constantly changing seasons?',
+'Would you rather have the power of super intelligence or the power of extreme physical endurance?',
   ];
   const randomIndex = Math.floor(Math.random() * questions.length);
   const randomQuestion = questions[randomIndex];
