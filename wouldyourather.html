@@ -4,17 +4,18 @@
     <title>Would You Rather Game</title>
   </head>
   <body>
+
     <div class="container">
-      <h1>Would You Rather?</h1>
-      <div class="question">
-        <p>Would you rather:</p>
-        <button id="option1">Option 1</button>
-        <span class="percentage" id="percentage1">50%</span>
-        <br>
-        <button id="option2">Option 2</button>
-        <span class="percentage" id="percentage2">50%</span>
+        <h1>Would You Rather?</h1>
+        <div class="question">
+          <p>Would you rather eat pizza every day or eat sushi every day?</p>
+          <button onclick="chooseOption('pizza')">Pizza</button>
+          <button onclick="chooseOption('sushi')">Sushi</button>
+          <p id="results"></p>
+          <button id="nextBtn" onclick="nextQuestion()">Next Question</button>
+        </div>
       </div>
-    </div>
+      
 
     <style>
 
@@ -22,25 +23,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
+  margin-top: 50px;
 }
 
 .question {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 20px;
+  border: 2px solid black;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 button {
   margin: 10px;
   padding: 10px 20px;
-  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.percentage {
-  margin-left: 10px;
+button:hover {
+  background-color: #0062cc;
 }
 
 
@@ -48,32 +56,39 @@ button {
 
 <script>
 
-const option1Btn = document.getElementById("option1");
-const option2Btn = document.getElementById("option2");
-const percentage1 = document.getElementById("percentage1");
-const percentage2 = document.getElementById("percentage2");
+let pizzaCount = 0;
+let sushiCount = 0;
 
-let totalVotes = 0;
-let option1Votes = 0;
-let option2Votes = 0;
+function chooseOption(option) {
+  if (option === 'pizza') {
+    pizzaCount++;
+  } else if (option === 'sushi') {
+    sushiCount++;
+  }
+  document.getElementById('results').innerHTML = `Pizza: ${getPercentage(pizzaCount)}, Sushi: ${getPercentage(sushiCount)}`;
+}
 
-option1Btn.addEventListener("click", () => {
-  totalVotes++;
-  option1Votes++;
-  updatePercentages();
-});
+function getPercentage(count) {
+  const total = pizzaCount + sushiCount;
+  if (total === 0) {
+    return '0%';
+  } else {
+    return `${Math.round((count / total) * 100)}%`;
+  }
+}
 
-option2Btn.addEventListener("click", () => {
-  totalVotes++;
-  option2Votes++;
-  updatePercentages();
-});
-
-function updatePercentages() {
-  const percentage1Value = ((option1Votes / totalVotes) * 100).toFixed(0) + "%";
-  const percentage2Value = ((option2Votes / totalVotes) * 100).toFixed(0) + "%";
-  percentage1.textContent = percentage1Value;
-  percentage2.textContent = percentage2Value;
+function nextQuestion() {
+  pizzaCount = 0;
+  sushiCount = 0;
+  document.getElementById('results').innerHTML = '';
+  const questions = [
+    'Would you rather be able to fly or be able to breathe underwater?',
+    'Would you rather have super strength or be able to read minds?',
+    'Would you rather be a famous musician or a famous actor/actress?'
+  ];
+  const randomIndex = Math.floor(Math.random() * questions.length);
+  const randomQuestion = questions[randomIndex];
+  document.querySelector('.question p').innerHTML = randomQuestion;
 }
 
 
