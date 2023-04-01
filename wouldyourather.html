@@ -66,7 +66,7 @@ function chooseOption(option) {
   } else if (option === 'sushi') {
     sushiCount++;
   }
-  document.getElementById('results').innerHTML = `Pizza: ${getPercentage(pizzaCount)}, Sushi: ${getPercentage(sushiCount)}`;
+  document.getElementById('results').innerHTML = `First Option: ${getPercentage(pizzaCount)}, Second Option: ${getPercentage(sushiCount)}`;
 }
 
 function getPercentage(count) {
