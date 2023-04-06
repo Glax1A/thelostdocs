@@ -41,6 +41,145 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
 
+// Set up the map
+const map = L.map("map").setView([40.7128, -74.006], 13);
+
+// Add the OpenStreetMap tile layer
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution:
+    'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+}).addTo(map);
+
+// Search for a location
+const searchButton = document.getElementById("search");
+searchButton.addEventListener("click", search);
+
+function search(event) {
+  event.preventDefault();
+
+  const location = document.getElementById("location").value;
+
+  // Use the OpenStreetMap Nominatim API to geocode the location
+  axios
+    .get("https://nominatim.openstreetmap.org/search", {
+      params: {
+        q: location,
+        format: "json",
+      },
+    })
+    .then((response) => {
+      const result = response.data[0];
+
+      if (result) {
+        // Center the map on the result
+        map.setView([result.lat, result.lon], 13);
+
+        // Add a marker for the result
+        const marker = L.marker([result.lat, result.lon]).addTo(map);
+        marker.bindPopup(result.display_name).openPopup();
+      } else {
+        alert("Location not found.");
+      }
+    })
+    .catch((error) => {
+      alert("Error searching for location.");
+      console.error(error);
+    });
+}
+
+// Get directions
+const directionsButton = document.getElementById("directions");
+directionsButton.addEventListener("click", getDirections);
+
+function getDirections(event) {
+  event.preventDefault();
+
+  const start = document.getElementById("start").value;
+  const end = document.getElementById("end").value;
+
+  // Use the OpenStreetMap Nominatim API to geocode the start and end locations
+  const geocodeStart = axios.get("https://nominatim.openstreetmap.org/search", {
+    params: {
+      q: start,
+      format: "json",
+    },
+  });
+  const geocodeEnd = axios.get("https://nominatim.openstreetmap.org/search", {
+    params: {
+      q: end,
+      format: "json",
+    },
+  });
+
+  Promise.all([geocodeStart, geocodeEnd])
+    .then((responses) => {
+      const startResult = responses[0].data[0];
+      const endResult = responses[1].data[0];
+
+      if (startResult && endResult) {
+        // Use the OpenRouteService API to get the directions
+        axios
+          .get("https://api.openrouteservice.org/v2/directions/driving-car", {
+            params: {
+              api_key: "your-api-key-here",
+              start: `${startResult.lon},${startResult.lat}`,
+              end: `${endResult.lon},${endResult.lat}`,
+            },
+          })
+          .then((response) => {
+            const route = response.data.routes[0];
+
+            if (route) {
+              // Remove any existing directions
+              map.eachLayer((layer) => {
+                if (layer instanceof L.Polyline) {
+                  map.removeLayer(layer);
+                }
+              });
+
+              // Add the route to the map
+              const coordinates = route.geometry.coordinates.map(
+                (coordinate) => [coordinate[1], coordinate[0]]
+              );
+              const polyline = L.polyline(coordinates, {
+                color: "blue",
+              }).addTo(map);
+
+              // Fit the map to the route
+              map.fitBounds(polyline.getBounds());
+
+              // Display the distance and duration
+              const distance = route.segments.reduce(
+                (total, segment) => total + segment.distance,
+                0
+              );
+              const duration = route.segments.reduce(
+                (total, segment) => total + segment.duration,
+                0
+              );
+              document.getElementById("distance").textContent = `${(
+                distance / 1000
+              ).toFixed(2)} km`;
+              document.getElementById("duration").textContent = `${(
+                duration / 60
+              ).toFixed(0)} min`;
+            } else {
+              alert("Directions not found.");
+            }
+          })
+          .catch((error) => {
+            alert("Error getting directions.");
+            console.error(error);
+          });
+      } else {
+        alert("Start or end location not found.");
+      }
+    })
+    .catch((error) => {
+      alert("Error geocoding locations.");
+      console.error(error);
+    });
+}
 
 
     </script>
