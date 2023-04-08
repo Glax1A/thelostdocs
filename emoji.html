@@ -130,19 +130,6 @@ main {
     <div class="lg-colour-box secondary"></div>
   </div>
 
-<!-- A button to trigger the copy action -->
-<button onclick="copyImage()">Copy Image</button>
-  
-<script>
-  function copyImage() {
-    // Get the image element
-    const image = document.getElementById('image');
-
-    // Create a new clipboard item with the image
-    navigator.clipboard.write([new ClipboardItem({ 'image/png': imageBlob })]);
-  }
-</script>
-
 
   <script>
       const primaryContainer = document.querySelector('#primary-container');
