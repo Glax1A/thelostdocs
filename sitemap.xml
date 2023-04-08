@@ -9,64 +9,63 @@
 
 <url>
   <loc>https://thelostdocs.com/</loc>
-  <lastmod>2023-01-03T20:48:50+00:00</lastmod>
+  <lastmod>2023-04-08T07:11:22+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://thelostdocs.com/index.html</loc>
-  <lastmod>2023-01-03T20:48:50+00:00</lastmod>
+  <lastmod>2023-04-08T07:11:22+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://thelostdocs.com/guesscode.html</loc>
-  <lastmod>2023-01-03T20:48:50+00:00</lastmod>
+  <lastmod>2023-04-08T07:11:22+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://thelostdocs.com/emoji.html</loc>
-  <lastmod>2023-01-03T20:48:50+00:00</lastmod>
+  <lastmod>2023-04-08T07:11:22+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://thelostdocs.com/spendit.html</loc>
-  <lastmod>2023-01-03T20:48:50+00:00</lastmod>
+  <lastmod>2023-04-08T07:11:22+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://thelostdocs.com/paint.html</loc>
-  <lastmod>2023-01-03T20:48:50+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://thelostdocs.com/music.html</loc>
-  <lastmod>2023-01-03T20:48:50+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://thelostdocs.com/error.html</loc>
-  <lastmod>2023-01-03T20:48:50+00:00</lastmod>
+  <loc>https://thelostdocs.com/mandelbrotset.html</loc>
+  <lastmod>2023-04-08T07:11:22+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://thelostdocs.com/location.html</loc>
-  <lastmod>2023-01-03T20:48:50+00:00</lastmod>
+  <lastmod>2023-04-08T07:11:22+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://thelostdocs.com/display.html</loc>
-  <lastmod>2023-01-03T20:48:50+00:00</lastmod>
-  <priority>0.64</priority>
+  <loc>https://thelostdocs.com/music.html</loc>
+  <lastmod>2023-04-08T07:11:22+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://thelostdocs.com/musicbeat.html</loc>
-  <lastmod>2023-01-03T20:48:50+00:00</lastmod>
-  <priority>0.64</priority>
+  <loc>https://thelostdocs.com/moneyclicker.html</loc>
+  <lastmod>2023-04-08T07:11:22+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://thelostdocs.com/location2.html</loc>
-  <lastmod>2023-01-03T20:48:50+00:00</lastmod>
-  <priority>0.64</priority>
+  <loc>https://thelostdocs.com/quiz.html</loc>
+  <lastmod>2023-04-08T07:11:22+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
-
+<url>
+  <loc>https://thelostdocs.com/simonsays.html</loc>
+  <lastmod>2023-04-08T07:11:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thelostdocs.com/wouldyourather.html</loc>
+  <lastmod>2023-04-08T07:11:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
 
 </urlset>
