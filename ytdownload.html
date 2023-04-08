@@ -1,27 +1,21 @@
+<!DOCTYPE html>
 <html>
+<head>
+	<title>Download YouTube Video</title>
+</head>
 <body>
+	<h1>Download YouTube Video</h1>
+	<label for="url">Enter the YouTube URL:</label>
+	<input type="text" id="url" name="url">
+	<button onclick="downloadVideo()">Download</button>
 
-    <script>
-
-const videoUrl = 'https://www.youtube.com/watch?v=zE0hH6S8Jg8';
-fetch(`https://www.youtubeinmp4.com/redirect.php?video=${www.youtube.com/watch?v=zE0hH6S8Jg8}`)
-  .then(response => response.blob())
-  .then(blob => {
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'video.mp4';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
-});
-
-    </script>
+	<script>
+		function downloadVideo() {
+			var url = document.getElementById("url").value;
+			var videoID = url.split("v=")[1];
+			var downloadLink = "https://www.ssyoutube.com/watch?v=" + videoID;
+			window.location.href = downloadLink;
+		}
+	</script>
 </body>
-
 </html>
-
-
-
-
