@@ -127,8 +127,22 @@ main {
     <div id="blue-button" class="colour-box blue"></div>
   </div>
   <div id="secondary-container">
-    <div class="lg-colour-box secondary"></div>
+    <div onclick="copyImage()" class="lg-colour-box secondary"></div>
   </div>
+
+
+  
+<script>
+  function copyImage() {
+    // Get the image element
+    const image = document.getElementById('image');
+
+    // Create a new clipboard item with the image
+    navigator.clipboard.write([new ClipboardItem({ 'image/png': imageBlob })]);
+  }
+</script>
+
+
   <script>
       const primaryContainer = document.querySelector('#primary-container');
 const colorBoxes = document.querySelectorAll('.colour-box');
@@ -141,13 +155,13 @@ let redSelected = false;
 let yellowSelected = false;
 let blueSelected = false;
 
-const whiteArray = ['👻', '👀', '☁️', '🍚', '🥚', '🥛', '🏐', '🗯'];
-const redArray = ['❤️', '👹', '💋', '💃', '🍎', '🌶', '🚘', '🌹'];
-const yellowArray = ['🌝', '🐥', '🍋', '🧀', '🚜', '💛', '📒', '👂', '😎'];
-const blueArray = ['👕', '🦋', '🐬', '💦', '🚙', '💎', '💙', '❄️', '😰'];
-const orangeArray = ['🎃', '🦁', '🦀', '🍊', '🏀', '📙', '🧡', '🥕'];
-const purpleArray = ['😈', '👾', '☂️', '🍆', '🍇', '🔮', '💜', '🕺'];
-const greenArray = ['🤢', '🐸', '🦖', '🍀', '🍏', '🎾', '💚', '🥒'];
+const whiteArray = ['👻', '👀', '☁️', '🍚', '🥚', '🥛', '🏐', '🗯', '🏳️', '🤍'];
+const redArray = ['❤️', '👹', '💋', '💃', '🍎', '🌶', '🚘', '🌹', '🥵', '😡'];
+const yellowArray = ['🌝', '🐥', '🍋', '🧀', '🚜', '💛', '📒', '👂', '😎', '😐', '😴'];
+const blueArray = ['👕', '🦋', '🐬', '💦', '🚙', '💎', '💙', '❄️', '😰', '☄️'];
+const orangeArray = ['🎃', '🦁', '🦀', '🍊', '🏀', '📙', '🧡', '🥕', '🦧'];
+const purpleArray = ['😈', '👾', '☂️', '🍆', '🍇', '🔮', '💜', '🕺', '🔮'];
+const greenArray = ['🤢', '🐸', '🦖', '🍀', '🍏', '🎾', '💚', '🥒', '📗'];
 
 function toggleButton(button, selected) {
   button.addEventListener('click', () => {
@@ -168,7 +182,7 @@ function toggleButton(button, selected) {
        && yellowButton.classList.contains('active')
        && blueButton.classList.contains('active')) {
          lgColourBox.style.background = '#6d4c41';
-         lgColourBox.textContent = '💩';
+         lgColourBox.textContent = '💩', '🏴', '🖤';
      }
     if(!redButton.classList.contains('active') 
        && !yellowButton.classList.contains('active')
