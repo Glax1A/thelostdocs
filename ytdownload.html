@@ -1,0 +1,66 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+
+        <input type="text" id="url" placeholder="Enter YouTube video URL"><br>
+        <input type="text" id="filename" placeholder="Enter desired file name"><br>
+        <button onclick="downloadVideo()">Download Video</button>
+
+        <script>
+            function downloadVideo() {
+  let url = document.getElementById("url").value;
+  let filename = document.getElementById("filename").value;
+  let videoId = url.split('v=')[1];
+  let ampersandPosition = videoId.indexOf('&');
+  if(ampersandPosition != -1) {
+    videoId = videoId.substring(0, ampersandPosition);
+  }
+  let downloadUrl = "https://www.youtube.com/watch?v=" + videoId;
+  let link = document.createElement('a');
+  link.href = downloadUrl;
+  link.download = filename + '.mp4';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+        </script>
+
+
+<style>
+input[type="text"] {
+  margin-bottom: 10px;
+}
+
+</style>
+
+
+
+
+
+
+
+
+<!--
+const videoUrl = 'https://www.youtube.com/watch?v=VIDEO_ID_HERE';
+fetch(`https://www.youtubeinmp4.com/redirect.php?video=${videoUrl}`)
+  .then(response => response.blob())
+  .then(blob => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'video.mp4';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+});
+-->
+    </body>
+</html>
+
+
+
+
