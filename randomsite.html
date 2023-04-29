@@ -24,14 +24,14 @@
 
 </style>
 <script>
-    document.getElementById("random-btn").addEventListener("click", function() {
+document.getElementById("random-btn").addEventListener("click", function() {
   // An array of websites
   var websites = [
-    "http://www.endless.horse",
-    "https://www.thelostdocs.com/mandelbrotset.html",
-    "https://www.boredbutton.com",
-    "https://www.thelostdocs.com/guesscode.html",
-    "https://www.amazon.com"
+    "http://endless.horse",
+    "https://binarypiano.com/",
+    "https://thelostdocs.com/windows10update.html",
+    "https://puginarug.com/",
+    "https://sliding.toys/mystic-square/8-puzzle/",
   ];
   
   // Generate a random number between 0 and the length of the websites array
@@ -40,8 +40,8 @@
   // Use the random number to get a random website from the array
   var randomWebsite = websites[randomIndex];
 
-  // Load the random website into the iframe
-  document.getElementById("random-iframe").src = randomWebsite;
+  // Open the random website in a new tab
+  window.open(randomWebsite);
 });
 
 </script>
