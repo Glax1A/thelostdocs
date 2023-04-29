@@ -132,7 +132,7 @@
         <TD vAlign=top width=50 height=100><FONT face=Arial>
           <FORM name=myform>
           &nbsp; <P><bold>Review here:</bold></FONT></P>
-          <P><FONT face=Arial><TEXTAREA onkeypress="return changer()" name=mytext rows=10 wrap=virtual cols=30></TEXTAREA><BR><BR><INPUT onclick=resetit() type=button value="Submit Feedback"></FONT></P></FORM></TD></TR></TBODY></TABLE>
+          &nbsp; <P><FONT face=Arial><TEXTAREA onkeypress="return changer()" name=mytext rows=10 wrap=virtual cols=30></TEXTAREA><BR><BR><INPUT onclick=resetit() type=button value="Submit Feedback"></FONT></P></FORM></TD></TR></TBODY></TABLE>
     </DIV>
 
 
@@ -166,7 +166,7 @@
           var decrease_increase=50
           
           var counterdate=new Date()
-          var currenthits=counterdate.getTime().toString()
+          var currenthits=counterdate.getDate().toString()
           currenthits=parseInt(currenthits.substring(2,currenthits.length-4))+decrease_increase
           
           document.write("<p style='float: right;'>You are visitor # <b>"+currenthits+"</b> to my site!")
