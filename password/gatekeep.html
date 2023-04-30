@@ -1,60 +1,35 @@
 <HTML>
     <HEAD>
     <TITLE>Gate Keeper</TITLE>
-    
-    <SCRIPT LANGUAGE="JavaScript">
-    <!--- Hide from tired old browsers that should be put to pasture.
 
-    
-    function goForit() {
-      var location;
-      var password;
-      password=this.document.testform.inputbox.value
-      location=password + ".html"
-      fetch(location)
-      theKeeper=window.close()
-    }
-    
-    function fetch(location) {
-      var root;
-      if (opener.closed) {
-        root=window.open('','theKeepersGopher','toolbar=yes,location=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,copyhistory=no');
-        root.location.href = location;
-      } else {
-        opener.location.href = location;
-      }
-    }
-    
-    // End hiding --->
-    </SCRIPT>
-    
     </HEAD>
-
-    
-    <TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100%>
-    <TR>
-    <TD ROWSPAN=2 WIDTH=50%>
-    &nbsp;&nbsp;
-    
-    <TD WIDTH=50% ALIGN=CENTER VALIGN=MIDDLE>
-    <FONT FACE="ARIAL" SIZE=2><B>Please enter your password to access secure webmaster login.</B></FONT><BR>
-    &nbsp;
-    
-    <TR>
-    <TD WIDTH=50% ALIGN=CENTER VALIGN=BOTTOM>
-    <CENTER>
-    <FORM NAME="testform">
-    <INPUT TYPE="text" NAME="inputbox" VALUE="" size=20>
-    <INPUT TYPE="button" NAME="button" Value="Submit Password" onClick="goForit(this.form)">
-    
-
-    
-    </FORM>
-    </CENTER>
-    
-    
-    </TABLE>
-    
+<body>
+    <SCRIPT>
+        function passWord() {
+        var testV = 1;
+        var pass1 = prompt('Please Enter Your Password',' ');
+        while (testV < 3) {
+        if (!pass1)
+        history.go(-1);
+        if (pass1.toLowerCase() == "letmein") {
+        alert('You Got it Right: Redirecting to next checkpoint.');
+        window.open('lnkpage.html');
+        break;
+        }
+        testV+=1;
+        var pass1 =
+        prompt('Access Denied - Password Incorrect, Please Try Again.','Password');
+        }
+        if (pass1.toLowerCase()!="password" & testV ==3)
+        history.go(-1);
+        return " ";
+        }
+        </SCRIPT>
+        <CENTER>
+        <FORM>
+        <input type="button" value="Enter Protected Area" onClick="passWord()">
+        </FORM>
+        </CENTER>
     </BODY>
     
     </HTML>
