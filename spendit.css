@@ -136,19 +136,19 @@
  }
  
  .btn-buy {
-   background-color: rgb(98, 192, 91)
+   background-color: rgb(55, 121, 51)
  }
  
  .btn-sell {
-   background-color: rgb(255, 141, 141);
+   background-color: rgb(243, 78, 78);
  }
  
  .btn-sell:hover {
-   background-color: rgb(255, 177, 163);
+   background-color: rgb(252, 154, 137);
  }
  
  .btn-buy:hover {
-   background-color: rgb(165, 240, 158);
+   background-color: rgb(116, 219, 107);
  }
  
  .receipt {
