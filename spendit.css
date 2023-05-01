@@ -92,8 +92,8 @@
    text-align: center;
    background: linear-gradient(
      0deg,
-     rgb(59, 61, 63) 0%,
-     rgb(34, 35, 36) 100%
+     rgba(104, 113, 120, 1) 0%,
+     rgba(83, 90, 95, 1) 100%
    );
    color: white;
    border-radius: 5px;
