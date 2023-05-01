@@ -130,9 +130,29 @@ document.getElementById("random-btn").addEventListener("click", function() {
 
   ];
   
+  // Get the last five websites from local storage or create an empty array if there are none
+  var lastFiveWebsites = JSON.parse(localStorage.getItem("lastFiveWebsites")) || [];
+
   // Generate a random number between 0 and the length of the websites array
   var randomIndex = Math.floor(Math.random() * websites.length);
-  
+
+  // Check if the randomly selected website is one of the last five websites
+  while (lastFiveWebsites.includes(websites[randomIndex])) {
+    // If it is, generate a new random number and check again
+    randomIndex = Math.floor(Math.random() * websites.length);
+  }
+
+  // Add the randomly selected website to the beginning of the last five websites array
+  lastFiveWebsites.unshift(websites[randomIndex]);
+
+  // If the last five websites array has more than five items, remove the oldest one
+  if (lastFiveWebsites.length > 5) {
+    lastFiveWebsites.pop();
+  }
+
+  // Save the updated last five websites array to local storage
+  localStorage.setItem("lastFiveWebsites", JSON.stringify(lastFiveWebsites));
+
   // Use the random number to get a random website from the array
   var randomWebsite = websites[randomIndex];
 
