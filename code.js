@@ -361,7 +361,7 @@ elements.forEach((element) => {
 
   newElement.innerHTML = `<img src="${element.image}" alt="${element.name}" />
   <p id="name">${element.name}</p>
-  <span id="price">USD ${formatMoney(element.price)}</span>
+  <span id="price">GBP ${formatMoney(element.price)}</span>
   <div class="buyAndSellContainer" data-price="${element.price}">
     <button class="btn-sell" id="sell" disabled>Sell</button>
     <span id="amount">${element.amount}</span>
