@@ -120,8 +120,8 @@ document.getElementById("random-btn").addEventListener("click", function() {
     "https://www.kamogo.com/4",
     "https://www.kamogo.com/1",
     "https://mrdoob.com/lab/javascript/checkbox_painter/",
-    "",
-    "",
+    "https://neal.art/brand-zoom/",
+    "https://pushparty.app/",
     "",
     "",
     "",
@@ -131,27 +131,27 @@ document.getElementById("random-btn").addEventListener("click", function() {
   ];
   
   // Get the last five websites from local storage or create an empty array if there are none
-  var lastTenWebsites = JSON.parse(localStorage.getItem("lastTenWebsites")) || [];
+  var lastTwentyWebsites = JSON.parse(localStorage.getItem("lastTwentyWebsites")) || [];
 
   // Generate a random number between 0 and the length of the websites array
   var randomIndex = Math.floor(Math.random() * websites.length);
 
   // Check if the randomly selected website is one of the last five websites
-  while (lastTenWebsites.includes(websites[randomIndex])) {
+  while (lastTwentyWebsites.includes(websites[randomIndex])) {
     // If it is, generate a new random number and check again
     randomIndex = Math.floor(Math.random() * websites.length);
   }
 
   // Add the randomly selected website to the beginning of the last five websites array
-  lastTenWebsites.unshift(websites[randomIndex]);
+  lastTwentyWebsites.unshift(websites[randomIndex]);
 
   // If the last five websites array has more than five items, remove the oldest one
-  if (lastTenWebsites.length > 10) {
-    lastTenWebsites.pop();
+  if (lastTwentyWebsites.length > 20) {
+    lastTwentyWebsites.pop();
   }
 
   // Save the updated last five websites array to local storage
-  localStorage.setItem("lastTenWebsites", JSON.stringify(lastTenWebsites));
+  localStorage.setItem("lastTwentyWebsites", JSON.stringify(lastTwentyWebsites));
 
   // Use the random number to get a random website from the array
   var randomWebsite = websites[randomIndex];
