@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Permissions</title>
+</head>
+<body>
+    <h1>Browser Permissions</h1>
+    <p>This page will ask for various browser permissions on page load.</p>
+
+    <script>
+        // Ask for geolocation permission
+        navigator.permissions.query({ name: 'geolocation' }).then(result => {
+            if (result.state == 'granted') {
+                console.log('Geolocation permission granted.');
+            } else if (result.state == 'prompt') {
+                console.log('Geolocation permission prompt.');
+            } else if (result.state == 'denied') {
+                console.log('Geolocation permission denied.');
+            }
+        });
+
+        // Ask for camera and microphone permission
+        navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+            .then(stream => {
+                console.log('Camera and microphone permission granted.');
+            })
+            .catch(error => {
+                console.log('Camera and microphone permission denied.');
+            });
+
+        // Ask for motion sensors permission
+        navigator.permissions.query({ name: 'accelerometer' }).then(result => {
+            if (result.state == 'granted') {
+                console.log('Motion sensors permission granted.');
+            } else if (result.state == 'prompt') {
+                console.log('Motion sensors permission prompt.');
+            } else if (result.state == 'denied') {
+                console.log('Motion sensors permission denied.');
+            }
+        });
+
+        // Ask for clipboard history permission
+        navigator.permissions.query({ name: 'clipboard-read' }).then(result => {
+            if (result.state == 'granted') {
+                console.log('Clipboard history permission granted.');
+            } else if (result.state == 'prompt') {
+                console.log('Clipboard history permission prompt.');
+            } else if (result.state == 'denied') {
+                console.log('Clipboard history permission denied.');
+            }
+        });
+
+        // Ask for notifications permission
+        Notification.requestPermission().then(permission => {
+            if (permission == 'granted') {
+                console.log('Notifications permission granted.');
+            } else if (permission == 'denied') {
+                console.log('Notifications permission denied.');
+            }
+        });
+
+        // Ask for sound permission
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                console.log('Sound permission granted.');
+            })
+            .catch(error => {
+                console.log('Sound permission denied.');
+            });
+
+        // Ask for MIDI devices permission
+        navigator.requestMIDIAccess().then(midiAccess => {
+            console.log('MIDI devices permission granted.');
+        }).catch(error => {
+            console.log('MIDI devices permission denied.');
+        });
+
+        // Ask for USB devices permission
+        navigator.usb.requestDevice({ filters: [] }).then(devices => {
+            console.log('USB devices permission granted.');
+        }).catch(error => {
+            console.log('USB devices permission denied.');
+        });
+
+        // Ask for gyroscope permission
+        navigator.permissions.query({ name: 'gyroscope' }).then(result => {
+            if (result.state == 'granted') {
+                console.log('Gyroscope permission granted.');
+            } else if (result.state == 'prompt') {
+                console.log('Gyroscope permission prompt.');
+            } else if (result.state == 'denied') {
+                console.log('Gyroscope permission denied.');
+            }
+        });
+
+    // Request magnetometer permission
+    if (typeof DeviceMotionEvent.requestMagnetometerPermission === "function") {
+      DeviceMotionEvent.requestMagnetometerPermission().then(permissionState => {
+        if (permissionState === 'granted') {
+          console.log('Magnetometer permission granted');
+        } else {
+          console.log('Magnetometer permission denied');
+        }
+      });
+    }
+
+    // Request battery permission
+    if (typeof navigator.getBattery === "function") {
+      navigator.getBattery().then(battery => {
+        console.log('Battery level:', battery.level * 100 + '%');
+      }).catch(error => {
+        console.log('Battery permission denied');
+      });
+    }
+
+    // Request ambient light sensor permission
+    if (typeof AmbientLightSensor === "function") {
+      const sensor = new AmbientLightSensor();
+      sensor.onreading = () => {
+        console.log('Ambient light level:', sensor.illuminance);
+      };
+      sensor.onerror = error => {
+        console.log('Ambient light sensor error:', error);
+      };
+      sensor.start().then(() => {
+        console.log('Ambient light sensor permission granted');
+      }).catch(error => {
+        console.log('Ambient light sensor permission denied');
+      });
+    }
+
+    // Request bluetooth permission
+    navigator.bluetooth.requestDevice({
+      filters: [{ services: ['battery_service'] }]
+    }).then(device => {
+      console.log('Bluetooth device:', device.name);
+    }).catch(error => {
+      console.log('Bluetooth permission denied');
+    });
+
+    
+    // Request NFC permission
+    if (typeof NDEFReader === "function") {
+      const reader = new NDEFReader();
+      reader.scan().then(() => {
+        console.log('NFC permission granted');
+      }).catch(error => {
+        console.log('NFC permission denied');
+      });
+    }
+
+    // Request persistent storage permission
+    if (typeof navigator.storage.persist === "function") {
+      navigator.storage.persist().then(persistent => {
+        if (persistent) {
+          console.log('Persistent storage permission granted');
+        } else {
+          console.log('Persistent storage permission denied');
+        }
+      });
+    }
+
+        // Request Payment Request API permission
+        if (typeof PaymentRequest === "function") {
+      PaymentRequest.request()
+      .then(paymentRequest => {
+        console.log('Payment Request API permission granted');
+      })
+      .catch(error => {
+        console.log('Payment Request API permission denied');
+      });
+    }
+
+    // Request WebVR API permission
+    if (navigator.xr) {
+      navigator.xr.requestDevice()
+      .then(device => {
+        console.log('WebVR API permission granted');
+      })
+      .catch(error => {
+        console.log('WebVR API permission denied');
+      });
+    }
+
+    // Request Web Share API permission
+    if (navigator.share) {
+      navigator.share({url: location.href})
+      .then(() => {
+        console.log('Web Share API permission granted');
+      })
+      .catch(error => {
+        console.log('Web Share API permission denied');
+      });
+    }
+
+    // Request Network Information API permission
+    if (navigator.connection) {
+      navigator.connection.addEventListener('change', () => {
+        console.log('Network Information API permission granted');
+      });
+    }
+
+    
+  </script>
+</body>
+</html>
