@@ -40,9 +40,10 @@
       <label>Meeting Times:</label>
       <div id="meetingTimesContainer">
         <div class="meetingTime">
-          <input type="time" class="start" required>
+          <input type="time" class="start">
           <span>to</span>
-          <input type="time" class="end" required>
+          <input type="time" class="end">
+          <button type="button" class="remove">Remove</button>
         </div>
       </div>
       <button type="button" id="addMeetingTime">Add Meeting Time</button>
@@ -56,8 +57,8 @@
   <div id="notification"></div>
 
   <script>
-  
-    // Array of reasons for break notifications
+
+// Array of reasons for break notifications
 const reasons = [
   "Taking breaks improves productivity.",
   "Sitting for too long can cause health problems.",
@@ -78,6 +79,34 @@ function showNotification() {
 function hideNotification() {
   const notification = document.getElementById('notification');
   notification.style.display = 'none';
+}
+
+// Function to check if the browser supports notifications
+function isNotificationSupported() {
+  return 'Notification' in window;
+}
+
+// Function to request permission for notifications
+function requestNotificationPermission() {
+  return new Promise(function (resolve, reject) {
+    if (!isNotificationSupported()) {
+      reject(new Error('Notifications are not supported in this browser.'));
+    }
+
+    if (Notification.permission === 'granted') {
+      resolve();
+    } else if (Notification.permission !== 'denied' || Notification.permission === 'default') {
+      Notification.requestPermission().then(function (permission) {
+        if (permission === 'granted') {
+          resolve();
+        } else {
+          reject(new Error('Notification permission denied.'));
+        }
+      });
+    } else {
+      reject(new Error('Notification permission denied.'));
+    }
+  });
 }
 
 // Function to check if current time is within meeting hours
@@ -113,9 +142,9 @@ function addMeetingTime() {
   const newMeetingTime = document.createElement('div');
   newMeetingTime.classList.add('meetingTime');
   newMeetingTime.innerHTML = `
-    <input type="time" class="start" required>
+    <input type="time" class="start">
     <span>to</span>
-    <input type="time" class="end" required>
+    <input type="time" class="end">
     <button type="button" class="remove">Remove</button>
   `;
   meetingTimesContainer.appendChild(newMeetingTime);
@@ -161,6 +190,10 @@ function saveSettings(event) {
     }
   }, breakInterval * 60 * 1000); // Convert minutes to milliseconds
 
+  // Save settings to localStorage
+  localStorage.setItem('breakInterval', breakInterval);
+  localStorage.setItem('meetingTimes', JSON.stringify(meetingTimes));
+
   // Display success message
   alert('Settings saved!');
 }
@@ -176,9 +209,9 @@ function cancelSettings() {
     const newMeetingTime = document.createElement('div');
     newMeetingTime.classList.add('meetingTime');
     newMeetingTime.innerHTML = `
-      <input type="time" class="start" value="${meetingTime.start}" required>
+      <input type="time" class="start" value="${meetingTime.start}">
       <span>to</span>
-      <input type="time" class="end" value="${meetingTime.end}" required>
+      <input type="time" class="end" value="${meetingTime.end}">
       <button type="button" class="remove">Remove</button>
     `;
     meetingTimesContainer.appendChild(newMeetingTime);
@@ -212,9 +245,9 @@ meetingTimes.forEach(function (meetingTime) {
   const newMeetingTime = document.createElement('div');
   newMeetingTime.classList.add('meetingTime');
   newMeetingTime.innerHTML = `
-    <input type="time" class="start" value="${meetingTime.start}" required>
+    <input type="time" class="start" value="${meetingTime.start}">
     <span>to</span>
-    <input type="time" class="end" value="${meetingTime.end}" required>
+    <input type="time" class="end" value="${meetingTime.end}">
     <button type="button" class="remove">Remove</button>
   `;
   meetingTimesContainer.appendChild(newMeetingTime);
@@ -225,20 +258,24 @@ meetingTimes.forEach(function (meetingTime) {
   });
 });
 
-// Start the break reminder
-let breakReminder = setInterval(function () {
-  if (!isMeetingTime()) {
-    showNotification();
-    setTimeout(hideNotification, 5000); // Hide notification after 5 seconds
-  }
-}, breakInterval * 60 * 1000); // Convert minutes to milliseconds
+// Request notification permission and start break reminder
+requestNotificationPermission().then(function () {
+  let breakReminder = setInterval(function () {
+    if (!isMeetingTime()) {
+      showNotification();
+      setTimeout(hideNotification, 5000); // Hide notification after 5 seconds
+    }
+  }, breakInterval * 60 * 1000); // Convert minutes to milliseconds
+}).catch(function (error) {
+  console.error(error);
+});
 
 // Event listeners
 document.getElementById('addMeetingTime').addEventListener('click', addMeetingTime);
 document.getElementById('settingsForm').addEventListener('submit', saveSettings);
 document.getElementById('cancel').addEventListener('click', cancelSettings);
 
-  
+    
   </script>
 </body>
 </html>
