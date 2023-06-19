@@ -38,7 +38,7 @@
     <script>
         function solveSudoku() {
             // Retrieve all input elements with class 'cell'
-            const inputs = document.querySelectorAll('.cell');
+            const inputs = Array.from(document.querySelectorAll('.cell'));
 
             // Create a 2D array to represent the Sudoku grid
             const grid = [];
