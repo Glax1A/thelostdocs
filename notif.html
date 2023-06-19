@@ -59,227 +59,231 @@
 
   <script>
 
-// Array of reasons for break notifications
-const reasons = [
-  "Taking breaks improves productivity.",
-  "Sitting for too long can cause health problems.",
-  "Fresh air and sunlight are good for your well-being.",
-  "Exercise and movement help maintain a healthy lifestyle.",
-  "Breaks can improve focus and creativity."
-];
+    // Array of reasons for break notifications
+    const reasons = [
+      "Taking breaks improves productivity.",
+      "Sitting for too long can cause health problems.",
+      "Fresh air and sunlight are good for your well-being.",
+      "Exercise and movement help maintain a healthy lifestyle.",
+      "Breaks can improve focus and creativity."
+    ];
 
-// Function to display notification
-function showNotification() {
-  const notification = document.getElementById('notification');
-  const randomReason = reasons[Math.floor(Math.random() * reasons.length)];
-  notification.innerHTML = `<strong>Take a break!</strong> ${randomReason}`;
-  notification.style.display = 'block';
-}
+    // Function to display notification
+    function showNotification() {
+      const randomReason = reasons[Math.floor(Math.random() * reasons.length)];
 
-// Function to hide notification
-function hideNotification() {
-  const notification = document.getElementById('notification');
-  notification.style.display = 'none';
-}
-
-// Function to check if the browser supports notifications
-function isNotificationSupported() {
-  return 'Notification' in window;
-}
-
-// Function to request permission for notifications
-function requestNotificationPermission() {
-  return new Promise(function (resolve, reject) {
-    if (!isNotificationSupported()) {
-      reject(new Error('Notifications are not supported in this browser.'));
+      if (Notification.permission === 'granted') {
+        new Notification('Take a break!', {
+          body: randomReason,
+          icon: 'notification-icon.png'
+        });
+      }
     }
 
-    if (Notification.permission === 'granted') {
-      resolve();
-    } else if (Notification.permission !== 'denied' || Notification.permission === 'default') {
-      Notification.requestPermission().then(function (permission) {
-        if (permission === 'granted') {
+    // Function to hide notification
+    function hideNotification() {
+      // No action needed
+    }
+
+    // Function to check if the browser supports notifications
+    function isNotificationSupported() {
+      return 'Notification' in window;
+    }
+
+    // Function to request permission for notifications
+    function requestNotificationPermission() {
+      return new Promise(function (resolve, reject) {
+        if (!isNotificationSupported()) {
+          reject(new Error('Notifications are not supported in this browser.'));
+        }
+
+        if (Notification.permission === 'granted') {
           resolve();
+        } else if (Notification.permission !== 'denied' || Notification.permission === 'default') {
+          Notification.requestPermission().then(function (permission) {
+            if (permission === 'granted') {
+              resolve();
+            } else {
+              reject(new Error('Notification permission denied.'));
+            }
+          });
         } else {
           reject(new Error('Notification permission denied.'));
         }
       });
-    } else {
-      reject(new Error('Notification permission denied.'));
     }
-  });
-}
 
-// Function to check if current time is within meeting hours
-function isMeetingTime() {
-  const now = new Date();
-  const currentHour = now.getHours();
-  const currentMinute = now.getMinutes();
+    // Function to check if current time is within meeting hours
+    function isMeetingTime() {
+      const now = new Date();
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
 
-  for (let i = 0; i < meetingTimes.length; i++) {
-    const meetingStart = new Date();
-    meetingStart.setHours(
-      parseInt(meetingTimes[i].start.split(':')[0]),
-      parseInt(meetingTimes[i].start.split(':')[1])
-    );
+      for (let i = 0; i < meetingTimes.length; i++) {
+        const meetingStart = new Date();
+        meetingStart.setHours(
+          parseInt(meetingTimes[i].start.split(':')[0]),
+          parseInt(meetingTimes[i].start.split(':')[1])
+        );
 
-    const meetingEnd = new Date();
-    meetingEnd.setHours(
-      parseInt(meetingTimes[i].end.split(':')[0]),
-      parseInt(meetingTimes[i].end.split(':')[1])
-    );
+        const meetingEnd = new Date();
+        meetingEnd.setHours(
+          parseInt(meetingTimes[i].end.split(':')[0]),
+          parseInt(meetingTimes[i].end.split(':')[1])
+        );
 
-    if (now >= meetingStart && now <= meetingEnd) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-// Function to add a new meeting time input field
-function addMeetingTime() {
-  const meetingTimesContainer = document.getElementById('meetingTimesContainer');
-  const newMeetingTime = document.createElement('div');
-  newMeetingTime.classList.add('meetingTime');
-  newMeetingTime.innerHTML = `
-    <input type="time" class="start">
-    <span>to</span>
-    <input type="time" class="end">
-    <button type="button" class="remove">Remove</button>
-  `;
-  meetingTimesContainer.appendChild(newMeetingTime);
-
-  const removeButton = newMeetingTime.querySelector('.remove');
-  removeButton.addEventListener('click', function () {
-    newMeetingTime.remove();
-  });
-}
-
-// Function to handle form submission and save settings
-function saveSettings(event) {
-  event.preventDefault();
-
-  // Get notification interval
-  const intervalInput = document.getElementById('interval');
-  const interval = parseInt(intervalInput.value);
-
-  // Get meeting times
-  const meetingTimeInputs = document.querySelectorAll('.meetingTime');
-  const meetingTimes = [];
-  meetingTimeInputs.forEach(function (meetingTimeInput) {
-    const startInput = meetingTimeInput.querySelector('.start');
-    const endInput = meetingTimeInput.querySelector('.end');
-    const startValue = startInput.value;
-    const endValue = endInput.value;
-    meetingTimes.push({ start: startValue, end: endValue });
-  });
-
-  // Update break interval and meeting times
-  breakInterval = interval;
-  meetingTimes = meetingTimes;
-
-  // Hide notification if currently displayed
-  hideNotification();
-
-  // Restart the break reminder
-  clearInterval(breakReminder);
-  breakReminder = setInterval(function () {
-    if (!isMeetingTime()) {
-      showNotification();
-      setTimeout(hideNotification, 5000); // Hide notification after 5 seconds
-    }
-  }, breakInterval * 60 * 1000); // Convert minutes to milliseconds
-
-  // Save settings to localStorage
-  localStorage.setItem('breakInterval', breakInterval);
-  localStorage.setItem('meetingTimes', JSON.stringify(meetingTimes));
-
-  // Display success message
-  alert('Settings saved!');
-}
-
-// Function to cancel and reset form values
-function cancelSettings() {
-  const intervalInput = document.getElementById('interval');
-  intervalInput.value = breakInterval;
-
-  const meetingTimesContainer = document.getElementById('meetingTimesContainer');
-  meetingTimesContainer.innerHTML = '';
-  meetingTimes.forEach(function (meetingTime) {
-    const newMeetingTime = document.createElement('div');
-    newMeetingTime.classList.add('meetingTime');
-    newMeetingTime.innerHTML = `
-      <input type="time" class="start" value="${meetingTime.start}">
-      <span>to</span>
-      <input type="time" class="end" value="${meetingTime.end}">
-      <button type="button" class="remove">Remove</button>
-    `;
-    meetingTimesContainer.appendChild(newMeetingTime);
-
-    const removeButton = newMeetingTime.querySelector('.remove');
-    removeButton.addEventListener('click', function () {
-      newMeetingTime.remove();
-    });
-  });
-}
-
-// Function to start the break reminder
-function startBreakReminder() {
-  requestNotificationPermission().then(function () {
-    let breakReminder = setInterval(function () {
-      if (!isMeetingTime()) {
-        showNotification();
-        setTimeout(hideNotification, 5000); // Hide notification after 5 seconds
+        if (now >= meetingStart && now <= meetingEnd) {
+          return true;
+        }
       }
-    }, breakInterval * 60 * 1000); // Convert minutes to milliseconds
-  }).catch(function (error) {
-    console.error(error);
-  });
-}
 
-// Initialize break interval and meeting times
-let breakInterval = 15; // Default interval value
-let meetingTimes = []; // Default meeting times
+      return false;
+    }
 
-// Load previously saved settings if available
-if (localStorage.getItem('breakInterval')) {
-  breakInterval = parseInt(localStorage.getItem('breakInterval'));
-}
+    // Function to add a new meeting time input field
+    function addMeetingTime() {
+      const meetingTimesContainer = document.getElementById('meetingTimesContainer');
+      const newMeetingTime = document.createElement('div');
+      newMeetingTime.classList.add('meetingTime');
+      newMeetingTime.innerHTML = `
+        <input type="time" class="start">
+        <span>to</span>
+        <input type="time" class="end">
+        <button type="button" class="remove">Remove</button>
+      `;
+      meetingTimesContainer.appendChild(newMeetingTime);
 
-if (localStorage.getItem('meetingTimes')) {
-  meetingTimes = JSON.parse(localStorage.getItem('meetingTimes'));
-}
+      const removeButton = newMeetingTime.querySelector('.remove');
+      removeButton.addEventListener('click', function () {
+        newMeetingTime.remove();
+      });
+    }
 
-// Populate form with initial values
-const intervalInput = document.getElementById('interval');
-intervalInput.value = breakInterval;
+    // Function to handle form submission and save settings
+    function saveSettings(event) {
+      event.preventDefault();
 
-const meetingTimesContainer = document.getElementById('meetingTimesContainer');
-meetingTimes.forEach(function (meetingTime) {
-  const newMeetingTime = document.createElement('div');
-  newMeetingTime.classList.add('meetingTime');
-  newMeetingTime.innerHTML = `
-    <input type="time" class="start" value="${meetingTime.start}">
-    <span>to</span>
-    <input type="time" class="end" value="${meetingTime.end}">
-    <button type="button" class="remove">Remove</button>
-  `;
-  meetingTimesContainer.appendChild(newMeetingTime);
+      // Get notification interval
+      const intervalInput = document.getElementById('interval');
+      const interval = parseInt(intervalInput.value);
 
-  const removeButton = newMeetingTime.querySelector('.remove');
-  removeButton.addEventListener('click', function () {
-    newMeetingTime.remove();
-  });
-});
+      // Get meeting times
+      const meetingTimeInputs = document.querySelectorAll('.meetingTime');
+      const meetingTimes = [];
+      meetingTimeInputs.forEach(function (meetingTimeInput) {
+        const startInput = meetingTimeInput.querySelector('.start');
+        const endInput = meetingTimeInput.querySelector('.end');
+        const startValue = startInput.value;
+        const endValue = endInput.value;
+        meetingTimes.push({ start: startValue, end: endValue });
+      });
 
-// Event listeners
-document.getElementById('addMeetingTime').addEventListener('click', addMeetingTime);
-document.getElementById('settingsForm').addEventListener('submit', saveSettings);
-document.getElementById('cancel').addEventListener('click', cancelSettings);
-document.getElementById('start').addEventListener('click', startBreakReminder);
+      // Update break interval and meeting times
+      breakInterval = interval;
+      meetingTimes = meetingTimes;
 
-    
+      // Hide notification if currently displayed
+      hideNotification();
+
+      // Restart the break reminder
+      clearInterval(breakReminder);
+      breakReminder = setInterval(function () {
+        if (!isMeetingTime()) {
+          showNotification();
+        }
+      }, breakInterval * 60 * 1000); // Convert minutes to milliseconds
+
+      // Save settings to localStorage
+      localStorage.setItem('breakInterval', breakInterval);
+      localStorage.setItem('meetingTimes', JSON.stringify(meetingTimes));
+
+      // Display success message
+      alert('Settings saved!');
+    }
+
+    // Function to cancel and reset form values
+    function cancelSettings() {
+      const intervalInput = document.getElementById('interval');
+      intervalInput.value = breakInterval;
+
+      const meetingTimesContainer = document.getElementById('meetingTimesContainer');
+      meetingTimesContainer.innerHTML = '';
+      meetingTimes.forEach(function (meetingTime) {
+        const newMeetingTime = document.createElement('div');
+        newMeetingTime.classList.add('meetingTime');
+        newMeetingTime.innerHTML = `
+          <input type="time" class="start" value="${meetingTime.start}">
+          <span>to</span>
+          <input type="time" class="end" value="${meetingTime.end}">
+          <button type="button" class="remove">Remove</button>
+        `;
+        meetingTimesContainer.appendChild(newMeetingTime);
+
+        const removeButton = newMeetingTime.querySelector('.remove');
+        removeButton.addEventListener('click', function () {
+          newMeetingTime.remove();
+        });
+      });
+    }
+
+    // Function to start the break reminder
+    function startBreakReminder() {
+      requestNotificationPermission().then(function () {
+        let breakReminder = setInterval(function () {
+          if (!isMeetingTime()) {
+            showNotification();
+          }
+        }, breakInterval * 60 * 1000); // Convert minutes to milliseconds
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+
+    // Initialize break interval and meeting times
+    let breakInterval = 15; // Default interval value
+    let meetingTimes = []; // Default meeting times
+
+    // Load previously saved settings if available
+    if (localStorage.getItem('breakInterval')) {
+      breakInterval = parseInt(localStorage.getItem('breakInterval'));
+    }
+
+    if (localStorage.getItem('meetingTimes')) {
+      meetingTimes = JSON.parse(localStorage.getItem('meetingTimes'));
+    }
+
+    // Populate form with initial values
+    const intervalInput = document.getElementById('interval');
+    intervalInput.value = breakInterval;
+
+    const meetingTimesContainer = document.getElementById('meetingTimesContainer');
+    meetingTimes.forEach(function (meetingTime) {
+      const newMeetingTime = document.createElement('div');
+      newMeetingTime.classList.add('meetingTime');
+      newMeetingTime.innerHTML = `
+        <input type="time" class="start" value="${meetingTime.start}">
+        <span>to</span>
+        <input type="time" class="end" value="${meetingTime.end}">
+        <button type="button" class="remove">Remove</button>
+      `;
+      meetingTimesContainer.appendChild(newMeetingTime);
+
+      const removeButton = newMeetingTime.querySelector('.remove');
+      removeButton.addEventListener('click', function () {
+        newMeetingTime.remove();
+      });
+    });
+
+    // Event listeners
+    document.getElementById('addMeetingTime').addEventListener('click', addMeetingTime);
+    document.getElementById('settingsForm').addEventListener('submit', saveSettings);
+    document.getElementById('cancel').addEventListener('click', cancelSettings);
+    document.getElementById('start').addEventListener('click', startBreakReminder);
+
+    // Add event listener for push notification click outside the webpage
+    document.getElementById('notification').addEventListener('click', function () {
+      window.open("https://www.example.com"); // Replace with the desired URL to open
+    });
   </script>
 </body>
 </html>
