@@ -27,10 +27,6 @@
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     }
-
-    #breakTimeBox {
-      margin-top: 20px;
-    }
   </style>
 </head>
 <body>
@@ -52,11 +48,9 @@
       </div>
       <button type="button" id="addMeetingTime">Add Meeting Time</button>
     </div>
-    <div id="breakTimeBox">
-      <label for="breakStart">Break Start Time:</label>
-      <input type="time" id="breakStart">
-      <label for="breakEnd">Break End Time:</label>
-      <input type="time" id="breakEnd">
+    <div>
+      <label for="breakDuration">Break Duration (in minutes):</label>
+      <input type="number" id="breakDuration" min="1" value="5" required>
       <button type="button" id="addBreakTime">Add Break Time</button>
     </div>
     <div>
@@ -151,24 +145,16 @@
       return false;
     }
 
-    // Function to check if current time is within break hours
+    // Function to check if current time is within break time
     function isBreakTime() {
       const now = new Date();
       const currentHour = now.getHours();
       const currentMinute = now.getMinutes();
 
       for (let i = 0; i < breakTimes.length; i++) {
-        const breakStart = new Date();
-        breakStart.setHours(
-          parseInt(breakTimes[i].start.split(':')[0]),
-          parseInt(breakTimes[i].start.split(':')[1])
-        );
-
-        const breakEnd = new Date();
-        breakEnd.setHours(
-          parseInt(breakTimes[i].end.split(':')[0]),
-          parseInt(breakTimes[i].end.split(':')[1])
-        );
+        const breakStart = new Date(breakTimes[i].start);
+        const breakEnd = new Date(breakTimes[i].start);
+        breakEnd.setMinutes(breakEnd.getMinutes() + parseInt(breakTimes[i].duration));
 
         if (now >= breakStart && now <= breakEnd) {
           return true;
@@ -197,124 +183,24 @@
       });
     }
 
-    // Function to add a new break time input field
+    // Function to add a new break time
     function addBreakTime() {
-      const breakStartInput = document.getElementById('breakStart');
-      const breakEndInput = document.getElementById('breakEnd');
-      const breakStartValue = breakStartInput.value;
-      const breakEndValue = breakEndInput.value;
-      const breakTime = { start: breakStartValue, end: breakEndValue };
-      breakTimes.push(breakTime);
+      const breakDurationInput = document.getElementById('breakDuration');
+      const duration = parseInt(breakDurationInput.value);
 
-      const breakTimesContainer = document.getElementById('breakTimesContainer');
-      const newBreakTime = document.createElement('div');
-      newBreakTime.classList.add('breakTime');
-      newBreakTime.innerHTML = `
-        <span>${breakStartValue} to ${breakEndValue}</span>
-        <button type="button" class="remove">Remove</button>
-      `;
-      breakTimesContainer.appendChild(newBreakTime);
+      if (duration > 0) {
+        const breakTime = {
+          start: new Date(),
+          duration: duration
+        };
 
-      breakStartInput.value = '';
-      breakEndInput.value = '';
+        breakTimes.push(breakTime);
 
-      const removeButton = newBreakTime.querySelector('.remove');
-      removeButton.addEventListener('click', function () {
-        const index = breakTimes.indexOf(breakTime);
-        if (index !== -1) {
-          breakTimes.splice(index, 1);
-        }
-        newBreakTime.remove();
-      });
-    }
-
-    // Function to handle form submission and save settings
-    function saveSettings(event) {
-      event.preventDefault();
-
-      // Get notification interval
-      const intervalInput = document.getElementById('interval');
-      const interval = parseInt(intervalInput.value);
-
-      // Get meeting times
-      const meetingTimeInputs = document.querySelectorAll('.meetingTime');
-      const meetingTimes = [];
-      meetingTimeInputs.forEach(function (meetingTimeInput) {
-        const startInput = meetingTimeInput.querySelector('.start');
-        const endInput = meetingTimeInput.querySelector('.end');
-        const startValue = startInput.value;
-        const endValue = endInput.value;
-        meetingTimes.push({ start: startValue, end: endValue });
-      });
-
-      // Update break interval and meeting times
-      breakInterval = interval;
-      breakTimes = meetingTimes;
-
-      // Get break times
-      const breakTimeInputs = document.querySelectorAll('.breakTime');
-      const breakTimes = [];
-      breakTimeInputs.forEach(function (breakTimeInput) {
-        const startEndValues = breakTimeInput.querySelector('span').textContent.split(' to ');
-        const startValue = startEndValues[0];
-        const endValue = startEndValues[1];
-        breakTimes.push({ start: startValue, end: endValue });
-      });
-
-      // Update break times
-      breakTimes = breakTimes;
-
-      // Hide notification if currently displayed
-      hideNotification();
-
-      // Restart the break reminder
-      clearInterval(breakReminder);
-      breakReminder = setInterval(function () {
-        if (!isMeetingTime() && !isBreakTime()) {
-          showNotification();
-        }
-      }, breakInterval * 60 * 1000); // Convert minutes to milliseconds
-
-      // Save settings to localStorage
-      localStorage.setItem('breakInterval', breakInterval);
-      localStorage.setItem('meetingTimes', JSON.stringify(meetingTimes));
-      localStorage.setItem('breakTimes', JSON.stringify(breakTimes));
-
-      // Display success message
-      alert('Settings saved!');
-    }
-
-    // Function to cancel and reset form values
-    function cancelSettings() {
-      const intervalInput = document.getElementById('interval');
-      intervalInput.value = breakInterval;
-
-      const meetingTimesContainer = document.getElementById('meetingTimesContainer');
-      meetingTimesContainer.innerHTML = '';
-      meetingTimes.forEach(function (meetingTime) {
-        const newMeetingTime = document.createElement('div');
-        newMeetingTime.classList.add('meetingTime');
-        newMeetingTime.innerHTML = `
-          <input type="time" class="start" value="${meetingTime.start}">
-          <span>to</span>
-          <input type="time" class="end" value="${meetingTime.end}">
-          <button type="button" class="remove">Remove</button>
-        `;
-        meetingTimesContainer.appendChild(newMeetingTime);
-
-        const removeButton = newMeetingTime.querySelector('.remove');
-        removeButton.addEventListener('click', function () {
-          newMeetingTime.remove();
-        });
-      });
-
-      const breakTimesContainer = document.getElementById('breakTimesContainer');
-      breakTimesContainer.innerHTML = '';
-      breakTimes.forEach(function (breakTime) {
+        const breakTimesContainer = document.getElementById('breakTimesContainer');
         const newBreakTime = document.createElement('div');
         newBreakTime.classList.add('breakTime');
         newBreakTime.innerHTML = `
-          <span>${breakTime.start} to ${breakTime.end}</span>
+          <span>Break Time: ${duration} minutes</span>
           <button type="button" class="remove">Remove</button>
         `;
         breakTimesContainer.appendChild(newBreakTime);
@@ -327,31 +213,72 @@
           }
           newBreakTime.remove();
         });
+      }
+    }
+
+    // Function to start the break reminder
+    function startBreakReminder() {
+      // Request permission for notifications
+      requestNotificationPermission().then(function () {
+        const intervalInput = document.getElementById('interval');
+        const interval = parseInt(intervalInput.value);
+
+        // Save the settings
+        const settings = {
+          interval: interval,
+          meetingTimes: [],
+          breakTimes: []
+        };
+
+        const meetingTimeInputs = document.querySelectorAll('.meetingTime');
+        meetingTimeInputs.forEach(function (meetingTimeInput) {
+          const startInput = meetingTimeInput.querySelector('.start');
+          const endInput = meetingTimeInput.querySelector('.end');
+          const startValue = startInput.value;
+          const endValue = endInput.value;
+          if (startValue && endValue) {
+            settings.meetingTimes.push({
+              start: startValue,
+              end: endValue
+            });
+          }
+        });
+
+        const breakTimeInputs = document.querySelectorAll('.breakTime');
+        breakTimeInputs.forEach(function (breakTimeInput) {
+          const duration = parseInt(breakTimeInput.dataset.duration);
+          if (duration > 0) {
+            settings.breakTimes.push({
+              start: new Date(),
+              duration: duration
+            });
+          }
+        });
+
+        localStorage.setItem('breakReminderSettings', JSON.stringify(settings));
+
+        // Start the break reminder
+        setInterval(function () {
+          if (!isMeetingTime() && !isBreakTime()) {
+            showNotification();
+          } else {
+            hideNotification();
+          }
+        }, interval * 60000); // Convert minutes to milliseconds
+
+        alert('Break reminder started!');
+      }).catch(function (error) {
+        alert('Failed to start break reminder: ' + error.message);
       });
     }
 
-    // Start the break reminder
-    let breakInterval = localStorage.getItem('breakInterval') || 15;
-    let meetingTimes = JSON.parse(localStorage.getItem('meetingTimes')) || [];
-    let breakTimes = JSON.parse(localStorage.getItem('breakTimes')) || [];
-    let breakReminder;
-
-    requestNotificationPermission().then(function () {
-      breakReminder = setInterval(function () {
-        if (!isMeetingTime() && !isBreakTime()) {
-          showNotification();
-        }
-      }, breakInterval * 60 * 1000); // Convert minutes to milliseconds
-    }).catch(function (error) {
-      console.log('Error:', error);
-    });
-
-    // Add event listeners
+    // Event listeners
     document.getElementById('addMeetingTime').addEventListener('click', addMeetingTime);
     document.getElementById('addBreakTime').addEventListener('click', addBreakTime);
-    document.getElementById('start').addEventListener('click', showNotification);
-    document.getElementById('settingsForm').addEventListener('submit', saveSettings);
-    document.getElementById('cancel').addEventListener('click', cancelSettings);
+    document.getElementById('start').addEventListener('click', startBreakReminder);
+    document.getElementById('settingsForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+    });
 
   </script>
 </body>
