@@ -1,285 +1,139 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Break Reminder</title>
+  <title>Reminder</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
 
-    label {
-      font-weight: bold;
-    }
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
 
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-    }
+h1 {
+  text-align: center;
+}
 
-    #notification {
-      display: none;
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #f0f0f0;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+input[type="number"],
+input[type="time"] {
+  width: 100px;
+  margin-top: 5px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+    
   </style>
 </head>
 <body>
-  <h1>Break Reminder Settings</h1>
-  <form id="settingsForm">
-    <div>
-      <label for="interval">Notification Interval (in minutes):</label>
-      <input type="number" id="interval" min="1" value="15" required>
-    </div>
-    <div>
-      <label>Meeting Times:</label>
-      <div id="meetingTimesContainer">
-        <div class="meetingTime">
-          <input type="time" class="start">
-          <span>to</span>
-          <input type="time" class="end">
-          <button type="button" class="remove">Remove</button>
-        </div>
-      </div>
-      <button type="button" id="addMeetingTime">Add Meeting Time</button>
-    </div>
-    <div>
-      <label for="breakDuration">Break Duration (in minutes):</label>
-      <input type="number" id="breakDuration" min="1" value="5" required>
-      <button type="button" id="addBreakTime">Add Break Time</button>
-    </div>
-    <div>
-      <button type="button" id="start">Start</button>
-      <button type="submit" id="save">Save Settings</button>
-      <button type="button" id="cancel">Cancel</button>
-    </div>
-  </form>
-
-  <div id="notification"></div>
+  <h1>Reminder</h1>
+  <label for="interval">Interval (minutes):</label>
+  <input type="number" id="interval" min="1">
+  <br>
+  <label for="pauseStart">Pause Start Time:</label>
+  <input type="time" id="pauseStart">
+  <br>
+  <label for="pauseEnd">Pause End Time:</label>
+  <input type="time" id="pauseEnd">
+  <br>
+  <button id="startButton">Start</button>
 
   <script>
 
-    // Array of reasons for break notifications
-    const reasons = [
-      "Taking breaks improves productivity.",
-      "Sitting for too long can cause health problems.",
-      "Fresh air and sunlight are good for your well-being.",
-      "Exercise and movement help maintain a healthy lifestyle.",
-      "Breaks can improve focus and creativity."
-    ];
-
-    // Function to display notification
-    function showNotification() {
-      const randomReason = reasons[Math.floor(Math.random() * reasons.length)];
-
-      if (Notification.permission === 'granted') {
-        new Notification('Take a break!', {
-          body: randomReason,
-          icon: 'notification-icon.png'
-        });
-      }
-    }
-
-    // Function to hide notification
-    function hideNotification() {
-      // No action needed
-    }
-
-    // Function to check if the browser supports notifications
-    function isNotificationSupported() {
-      return 'Notification' in window;
-    }
-
-    // Function to request permission for notifications
-    function requestNotificationPermission() {
-      return new Promise(function (resolve, reject) {
-        if (!isNotificationSupported()) {
-          reject(new Error('Notifications are not supported in this browser.'));
-        }
-
-        if (Notification.permission === 'granted') {
+// Request permission for displaying notifications
+function requestNotificationPermission() {
+  return new Promise(function(resolve, reject) {
+    if (!("Notification" in window)) {
+      reject("Notifications not supported in this browser");
+    } else if (Notification.permission === "granted") {
+      resolve();
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then(function(permission) {
+        if (permission === "granted") {
           resolve();
-        } else if (Notification.permission !== 'denied' || Notification.permission === 'default') {
-          Notification.requestPermission().then(function (permission) {
-            if (permission === 'granted') {
-              resolve();
-            } else {
-              reject(new Error('Notification permission denied.'));
-            }
-          });
         } else {
-          reject(new Error('Notification permission denied.'));
+          reject("Permission denied for notifications");
         }
       });
+    } else {
+      reject("Permission denied for notifications");
     }
+  });
+}
 
-    // Function to check if current time is within meeting hours
-    function isMeetingTime() {
-      const now = new Date();
-      const currentHour = now.getHours();
-      const currentMinute = now.getMinutes();
+// Create a notification
+function createNotification() {
+  var notification = new Notification("Reminder", {
+    body: "Time for a reminder!",
+    icon: "notification-icon.png"
+  });
+}
 
-      for (let i = 0; i < meetingTimes.length; i++) {
-        const meetingStart = new Date();
-        meetingStart.setHours(
-          parseInt(meetingTimes[i].start.split(':')[0]),
-          parseInt(meetingTimes[i].start.split(':')[1])
-        );
+// Start the reminder
+function startReminder() {
+  var intervalInput = document.getElementById("interval");
+  var pauseStartInput = document.getElementById("pauseStart");
+  var pauseEndInput = document.getElementById("pauseEnd");
 
-        const meetingEnd = new Date();
-        meetingEnd.setHours(
-          parseInt(meetingTimes[i].end.split(':')[0]),
-          parseInt(meetingTimes[i].end.split(':')[1])
-        );
+  var interval = parseInt(intervalInput.value) * 60000; // Convert minutes to milliseconds
 
-        if (now >= meetingStart && now <= meetingEnd) {
-          return true;
-        }
-      }
+  // Check if the input values are valid
+  if (isNaN(interval) || interval <= 0) {
+    alert("Please enter a valid interval");
+    return;
+  }
 
-      return false;
+  var pauseStart = pauseStartInput.value;
+  var pauseEnd = pauseEndInput.value;
+
+  // Check if the pause time inputs are valid
+  if (pauseStart > pauseEnd) {
+    alert("Please enter a valid pause time range");
+    return;
+  }
+
+  // Parse pause time inputs into time values
+  var pauseStartTime = new Date();
+  var pauseEndTime = new Date();
+  var currentTime = new Date();
+
+  pauseStartTime.setHours(parseInt(pauseStart.slice(0, 2)));
+  pauseStartTime.setMinutes(parseInt(pauseStart.slice(3, 5)));
+  pauseEndTime.setHours(parseInt(pauseEnd.slice(0, 2)));
+  pauseEndTime.setMinutes(parseInt(pauseEnd.slice(3, 5)));
+
+  // Check if the current time is within the pause time range
+  if (pauseStartTime <= currentTime && currentTime <= pauseEndTime) {
+    alert("Reminders are paused at the moment");
+    return;
+  }
+
+  // Schedule reminders
+  var intervalId = setInterval(function() {
+    currentTime = new Date();
+    if (pauseStartTime <= currentTime && currentTime <= pauseEndTime) {
+      return;
     }
+    createNotification();
+  }, interval);
+}
 
-    // Function to check if current time is within break time
-    function isBreakTime() {
-      const now = new Date();
-      const currentHour = now.getHours();
-      const currentMinute = now.getMinutes();
-
-      for (let i = 0; i < breakTimes.length; i++) {
-        const breakStart = new Date(breakTimes[i].start);
-        const breakEnd = new Date(breakTimes[i].start);
-        breakEnd.setMinutes(breakEnd.getMinutes() + parseInt(breakTimes[i].duration));
-
-        if (now >= breakStart && now <= breakEnd) {
-          return true;
-        }
-      }
-
-      return false;
-    }
-
-    // Function to add a new meeting time input field
-    function addMeetingTime() {
-      const meetingTimesContainer = document.getElementById('meetingTimesContainer');
-      const newMeetingTime = document.createElement('div');
-      newMeetingTime.classList.add('meetingTime');
-      newMeetingTime.innerHTML = `
-        <input type="time" class="start">
-        <span>to</span>
-        <input type="time" class="end">
-        <button type="button" class="remove">Remove</button>
-      `;
-      meetingTimesContainer.appendChild(newMeetingTime);
-
-      const removeButton = newMeetingTime.querySelector('.remove');
-      removeButton.addEventListener('click', function () {
-        newMeetingTime.remove();
-      });
-    }
-
-    // Function to add a new break time
-    function addBreakTime() {
-      const breakDurationInput = document.getElementById('breakDuration');
-      const duration = parseInt(breakDurationInput.value);
-
-      if (duration > 0) {
-        const breakTime = {
-          start: new Date(),
-          duration: duration
-        };
-
-        breakTimes.push(breakTime);
-
-        const breakTimesContainer = document.getElementById('breakTimesContainer');
-        const newBreakTime = document.createElement('div');
-        newBreakTime.classList.add('breakTime');
-        newBreakTime.innerHTML = `
-          <span>Break Time: ${duration} minutes</span>
-          <button type="button" class="remove">Remove</button>
-        `;
-        breakTimesContainer.appendChild(newBreakTime);
-
-        const removeButton = newBreakTime.querySelector('.remove');
-        removeButton.addEventListener('click', function () {
-          const index = breakTimes.indexOf(breakTime);
-          if (index !== -1) {
-            breakTimes.splice(index, 1);
-          }
-          newBreakTime.remove();
-        });
-      }
-    }
-
-    // Function to start the break reminder
-    function startBreakReminder() {
-      // Request permission for notifications
-      requestNotificationPermission().then(function () {
-        const intervalInput = document.getElementById('interval');
-        const interval = parseInt(intervalInput.value);
-
-        // Save the settings
-        const settings = {
-          interval: interval,
-          meetingTimes: [],
-          breakTimes: []
-        };
-
-        const meetingTimeInputs = document.querySelectorAll('.meetingTime');
-        meetingTimeInputs.forEach(function (meetingTimeInput) {
-          const startInput = meetingTimeInput.querySelector('.start');
-          const endInput = meetingTimeInput.querySelector('.end');
-          const startValue = startInput.value;
-          const endValue = endInput.value;
-          if (startValue && endValue) {
-            settings.meetingTimes.push({
-              start: startValue,
-              end: endValue
-            });
-          }
-        });
-
-        const breakTimeInputs = document.querySelectorAll('.breakTime');
-        breakTimeInputs.forEach(function (breakTimeInput) {
-          const duration = parseInt(breakTimeInput.dataset.duration);
-          if (duration > 0) {
-            settings.breakTimes.push({
-              start: new Date(),
-              duration: duration
-            });
-          }
-        });
-
-        localStorage.setItem('breakReminderSettings', JSON.stringify(settings));
-
-        // Start the break reminder
-        setInterval(function () {
-          if (!isMeetingTime() && !isBreakTime()) {
-            showNotification();
-          } else {
-            hideNotification();
-          }
-        }, interval * 60000); // Convert minutes to milliseconds
-
-        alert('Break reminder started!');
-      }).catch(function (error) {
-        alert('Failed to start break reminder: ' + error.message);
-      });
-    }
-
-    // Event listeners
-    document.getElementById('addMeetingTime').addEventListener('click', addMeetingTime);
-    document.getElementById('addBreakTime').addEventListener('click', addBreakTime);
-    document.getElementById('start').addEventListener('click', startBreakReminder);
-    document.getElementById('settingsForm').addEventListener('submit', function (event) {
-      event.preventDefault();
+// Event listener for the start button
+document.getElementById("startButton").addEventListener("click", function() {
+  requestNotificationPermission()
+    .then(startReminder)
+    .catch(function(error) {
+      console.error(error);
     });
+});
 
+    
   </script>
 </body>
 </html>
