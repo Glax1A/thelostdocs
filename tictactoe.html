@@ -3,148 +3,125 @@
 <head>
   <title>Tic-Tac-Toe</title>
   <style>
-  
-    #board {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 5px;
-  width: 300px;
-  margin-top: 20px;
-}
-
-.cell {
-  width: 100px;
-  height: 100px;
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  cursor: pointer;
-}
-  
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 2px;
+      width: 300px;
+      height: 300px;
+    }
+    .cell {
+      background-color: lightgray;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <h1>Tic-Tac-Toe</h1>
-  <div id="board">
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-  </div>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js" type="module"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-analytics.js" type="module"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js" type="module"></script>
-  <script type="module">
-  
-    // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getDatabase } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-analytics.js";
+  <div class="board"></div>
 
-// Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyCC2LJ5Rs_7gjA__C4SK1uey6LvdyV-pjw",
-    authDomain: "tictactoethelostdocs.firebaseapp.com",
-    projectId: "tictactoethelostdocs",
-    storageBucket: "tictactoethelostdocs.appspot.com",
-    messagingSenderId: "301582218338",
-    appId: "1:301582218338:web:62f894f956f657d1348d3b",
-    measurementId: "G-B8VF5BLH4D"
-};
+  <script>
+    const apiEndpoint = 'https://api.openai.com/v1/engines/davinci-codex/completions';
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase();
-const analytics = getAnalytics(app);
+    const board = document.querySelector('.board');
+    let cells = Array.from(document.querySelectorAll('.cell'));
+    let currentPlayer = 'X';
 
-// Set initial game state
-let currentPlayer = "X";
-let gameInProgress = true;
-const cells = document.getElementsByClassName("cell");
-
-// Function to handle cell clicks
-function handleCellClick(index) {
-  if (cells[index].innerHTML === "" && gameInProgress) {
-    cells[index].innerHTML = currentPlayer;
-    writeCellValue(index, currentPlayer);
-    checkGameStatus();
-    currentPlayer = currentPlayer === "X" ? "O" : "X";
-  }
-}
-
-// Function to write cell value to the database
-function writeCellValue(index, value) {
-  const cellRef = ref(database, "cells/" + index);
-  set(cellRef, value);
-}
-
-// Function to check game status
-function checkGameStatus() {
-  const winningCombinations = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
-
-  for (let i = 0; i < winningCombinations.length; i++) {
-    const [a, b, c] = winningCombinations[i];
-    if (
-      cells[a].innerHTML &&
-      cells[a].innerHTML === cells[b].innerHTML &&
-      cells[a].innerHTML === cells[c].innerHTML
-    ) {
-      gameInProgress = false;
-      cells[a].style.backgroundColor = "green";
-      cells[b].style.backgroundColor = "green";
-      cells[c].style.backgroundColor = "green";
-      break;
+    function initializeGame() {
+      cells.forEach(cell => {
+        cell.innerHTML = '';
+        cell.addEventListener('click', makeMove);
+      });
+      currentPlayer = 'X';
     }
-  }
-}
 
-// Function to listen for changes in game state
-function listenForChanges() {
-  const cellsRef = ref(database, "cells");
-  onValue(cellsRef, (snapshot) => {
-    const cellValues = snapshot.val();
-    for (let i = 0; i < cells.length; i++) {
-      if (cellValues.hasOwnProperty(i)) {
-        cells[i].innerHTML = cellValues[i];
+    function makeMove(event) {
+      const cell = event.target;
+      if (cell.innerHTML !== '') return;
+      cell.innerHTML = currentPlayer;
+      cell.removeEventListener('click', makeMove);
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+
+      checkWin();
+      if (currentPlayer === 'O') {
+        makeAIMove();
       }
     }
-    checkGameStatus();
-    currentPlayer = currentPlayer === "X" ? "O" : "X";
-  });
-}
 
-// Add click event listeners to cells
-for (let i = 0; i < cells.length; i++) {
-  cells[i].addEventListener(
-    "click",
-    (function (index) {
-      return function () {
-        handleCellClick(index);
+    function checkWin() {
+      const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+        [0, 4, 8], [2, 4, 6] // Diagonals
+      ];
+
+      for (let combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (
+          cells[a].innerHTML !== '' &&
+          cells[a].innerHTML === cells[b].innerHTML &&
+          cells[a].innerHTML === cells[c].innerHTML
+        ) {
+          announceWinner(cells[a].innerHTML);
+          return;
+        }
+      }
+
+      if (cells.every(cell => cell.innerHTML !== '')) {
+        announceDraw();
+      }
+    }
+
+    function announceWinner(winner) {
+      cells.forEach(cell => cell.removeEventListener('click', makeMove));
+      alert(`Player ${winner} wins!`);
+      initializeGame();
+    }
+
+    function announceDraw() {
+      cells.forEach(cell => cell.removeEventListener('click', makeMove));
+      alert("It's a draw!");
+      initializeGame();
+    }
+
+    async function makeAIMove() {
+      const gameBoard = cells.map(cell => cell.innerHTML || ' ');
+      const requestBody = {
+        prompt: 'Play Tic-Tac-Toe against the AI. Current game board: ' + gameBoard.join(''),
+        max_tokens: 1,
+        temperature: 0.0,
+        n: 1,
+        stop: '\n'
       };
-    })(i)
-  );
-}
 
-// Start listening for changes
-listenForChanges();
+      const response = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer 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' // Replace with your OpenAI API key
+        },
+        body: JSON.stringify(requestBody)
+      });
 
-  
+      const data = await response.json();
+      const aiMove = data.choices[0].text.trim();
+
+      const aiIndex = cells.findIndex(cell => cell.innerHTML === '');
+      cells[aiIndex].innerHTML = aiMove;
+      cells[aiIndex].removeEventListener('click', makeMove);
+
+      currentPlayer = 'X';
+
+      checkWin();
+    }
+
+    initializeGame();
   </script>
 </body>
 </html>
+
