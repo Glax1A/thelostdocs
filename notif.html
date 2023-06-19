@@ -27,6 +27,10 @@
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     }
+
+    #breakTimeBox {
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -47,6 +51,13 @@
         </div>
       </div>
       <button type="button" id="addMeetingTime">Add Meeting Time</button>
+    </div>
+    <div id="breakTimeBox">
+      <label for="breakStart">Break Start Time:</label>
+      <input type="time" id="breakStart">
+      <label for="breakEnd">Break End Time:</label>
+      <input type="time" id="breakEnd">
+      <button type="button" id="addBreakTime">Add Break Time</button>
     </div>
     <div>
       <button type="button" id="start">Start</button>
@@ -140,6 +151,33 @@
       return false;
     }
 
+    // Function to check if current time is within break hours
+    function isBreakTime() {
+      const now = new Date();
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
+
+      for (let i = 0; i < breakTimes.length; i++) {
+        const breakStart = new Date();
+        breakStart.setHours(
+          parseInt(breakTimes[i].start.split(':')[0]),
+          parseInt(breakTimes[i].start.split(':')[1])
+        );
+
+        const breakEnd = new Date();
+        breakEnd.setHours(
+          parseInt(breakTimes[i].end.split(':')[0]),
+          parseInt(breakTimes[i].end.split(':')[1])
+        );
+
+        if (now >= breakStart && now <= breakEnd) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
     // Function to add a new meeting time input field
     function addMeetingTime() {
       const meetingTimesContainer = document.getElementById('meetingTimesContainer');
@@ -156,6 +194,37 @@
       const removeButton = newMeetingTime.querySelector('.remove');
       removeButton.addEventListener('click', function () {
         newMeetingTime.remove();
+      });
+    }
+
+    // Function to add a new break time input field
+    function addBreakTime() {
+      const breakStartInput = document.getElementById('breakStart');
+      const breakEndInput = document.getElementById('breakEnd');
+      const breakStartValue = breakStartInput.value;
+      const breakEndValue = breakEndInput.value;
+      const breakTime = { start: breakStartValue, end: breakEndValue };
+      breakTimes.push(breakTime);
+
+      const breakTimesContainer = document.getElementById('breakTimesContainer');
+      const newBreakTime = document.createElement('div');
+      newBreakTime.classList.add('breakTime');
+      newBreakTime.innerHTML = `
+        <span>${breakStartValue} to ${breakEndValue}</span>
+        <button type="button" class="remove">Remove</button>
+      `;
+      breakTimesContainer.appendChild(newBreakTime);
+
+      breakStartInput.value = '';
+      breakEndInput.value = '';
+
+      const removeButton = newBreakTime.querySelector('.remove');
+      removeButton.addEventListener('click', function () {
+        const index = breakTimes.indexOf(breakTime);
+        if (index !== -1) {
+          breakTimes.splice(index, 1);
+        }
+        newBreakTime.remove();
       });
     }
 
@@ -180,7 +249,20 @@
 
       // Update break interval and meeting times
       breakInterval = interval;
-      meetingTimes = meetingTimes;
+      breakTimes = meetingTimes;
+
+      // Get break times
+      const breakTimeInputs = document.querySelectorAll('.breakTime');
+      const breakTimes = [];
+      breakTimeInputs.forEach(function (breakTimeInput) {
+        const startEndValues = breakTimeInput.querySelector('span').textContent.split(' to ');
+        const startValue = startEndValues[0];
+        const endValue = startEndValues[1];
+        breakTimes.push({ start: startValue, end: endValue });
+      });
+
+      // Update break times
+      breakTimes = breakTimes;
 
       // Hide notification if currently displayed
       hideNotification();
@@ -188,7 +270,7 @@
       // Restart the break reminder
       clearInterval(breakReminder);
       breakReminder = setInterval(function () {
-        if (!isMeetingTime()) {
+        if (!isMeetingTime() && !isBreakTime()) {
           showNotification();
         }
       }, breakInterval * 60 * 1000); // Convert minutes to milliseconds
@@ -196,6 +278,7 @@
       // Save settings to localStorage
       localStorage.setItem('breakInterval', breakInterval);
       localStorage.setItem('meetingTimes', JSON.stringify(meetingTimes));
+      localStorage.setItem('breakTimes', JSON.stringify(breakTimes));
 
       // Display success message
       alert('Settings saved!');
@@ -224,66 +307,52 @@
           newMeetingTime.remove();
         });
       });
-    }
 
-    // Function to start the break reminder
-    function startBreakReminder() {
-      requestNotificationPermission().then(function () {
-        let breakReminder = setInterval(function () {
-          if (!isMeetingTime()) {
-            showNotification();
+      const breakTimesContainer = document.getElementById('breakTimesContainer');
+      breakTimesContainer.innerHTML = '';
+      breakTimes.forEach(function (breakTime) {
+        const newBreakTime = document.createElement('div');
+        newBreakTime.classList.add('breakTime');
+        newBreakTime.innerHTML = `
+          <span>${breakTime.start} to ${breakTime.end}</span>
+          <button type="button" class="remove">Remove</button>
+        `;
+        breakTimesContainer.appendChild(newBreakTime);
+
+        const removeButton = newBreakTime.querySelector('.remove');
+        removeButton.addEventListener('click', function () {
+          const index = breakTimes.indexOf(breakTime);
+          if (index !== -1) {
+            breakTimes.splice(index, 1);
           }
-        }, breakInterval * 60 * 1000); // Convert minutes to milliseconds
-      }).catch(function (error) {
-        console.error(error);
+          newBreakTime.remove();
+        });
       });
     }
 
-    // Initialize break interval and meeting times
-    let breakInterval = 15; // Default interval value
-    let meetingTimes = []; // Default meeting times
+    // Start the break reminder
+    let breakInterval = localStorage.getItem('breakInterval') || 15;
+    let meetingTimes = JSON.parse(localStorage.getItem('meetingTimes')) || [];
+    let breakTimes = JSON.parse(localStorage.getItem('breakTimes')) || [];
+    let breakReminder;
 
-    // Load previously saved settings if available
-    if (localStorage.getItem('breakInterval')) {
-      breakInterval = parseInt(localStorage.getItem('breakInterval'));
-    }
-
-    if (localStorage.getItem('meetingTimes')) {
-      meetingTimes = JSON.parse(localStorage.getItem('meetingTimes'));
-    }
-
-    // Populate form with initial values
-    const intervalInput = document.getElementById('interval');
-    intervalInput.value = breakInterval;
-
-    const meetingTimesContainer = document.getElementById('meetingTimesContainer');
-    meetingTimes.forEach(function (meetingTime) {
-      const newMeetingTime = document.createElement('div');
-      newMeetingTime.classList.add('meetingTime');
-      newMeetingTime.innerHTML = `
-        <input type="time" class="start" value="${meetingTime.start}">
-        <span>to</span>
-        <input type="time" class="end" value="${meetingTime.end}">
-        <button type="button" class="remove">Remove</button>
-      `;
-      meetingTimesContainer.appendChild(newMeetingTime);
-
-      const removeButton = newMeetingTime.querySelector('.remove');
-      removeButton.addEventListener('click', function () {
-        newMeetingTime.remove();
-      });
+    requestNotificationPermission().then(function () {
+      breakReminder = setInterval(function () {
+        if (!isMeetingTime() && !isBreakTime()) {
+          showNotification();
+        }
+      }, breakInterval * 60 * 1000); // Convert minutes to milliseconds
+    }).catch(function (error) {
+      console.log('Error:', error);
     });
 
-    // Event listeners
+    // Add event listeners
     document.getElementById('addMeetingTime').addEventListener('click', addMeetingTime);
+    document.getElementById('addBreakTime').addEventListener('click', addBreakTime);
+    document.getElementById('start').addEventListener('click', showNotification);
     document.getElementById('settingsForm').addEventListener('submit', saveSettings);
     document.getElementById('cancel').addEventListener('click', cancelSettings);
-    document.getElementById('start').addEventListener('click', startBreakReminder);
 
-    // Add event listener for push notification click outside the webpage
-    document.getElementById('notification').addEventListener('click', function () {
-      window.open("https://www.example.com"); // Replace with the desired URL to open
-    });
   </script>
 </body>
 </html>
