@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPR - Site</title>
+<style>
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#article {
+  text-align: center;
+  max-width: 600px;
+}
+
+#fade-effect p {
+  opacity: 0;
+  animation: fade-in 3s ease forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+#premium-btn {
+  margin-top: 20px;
+}
+
+#lightbox {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#newsletter-popup {
+  background-color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+#newsletter-popup h2 {
+  margin-bottom: 10px;
+}
+
+#newsletter-popup p {
+  margin-bottom: 20px;
+}
+
+#newsletter-popup button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+</style>
+  <script src="site.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id="article">
+      <h1>CPR - Save a Life</h1>
+      <div id="fade-effect">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <p>In ac semper est, ut ullamcorper justo.</p>
+        <p>Nullam feugiat enim nec diam tristique finibus.</p>
+        <p>Vestibulum nec nisl posuere, dictum lacus eu, sodales tellus.</p>
+        <p>Etiam vehicula tortor vel tincidunt consequat.</p>
+        <p>Praesent elementum mauris nec libero laoreet cursus.</p>
+        <p>Curabitur pulvinar arcu at dui vulputate, sed fringilla tortor vestibulum.</p>
+        <p>Sed feugiat nisi vitae felis maximus varius.</p>
+        <p>Suspendisse id nisi vel tellus bibendum dapibus sed a sem.</p>
+      </div>
+      <div id="premium-btn">
+        <button onclick="redirectToPremium()">Buy Premium to Unlock Full Article</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="lightbox">
+    <div id="newsletter-popup">
+      <h2>Subscribe to Our Newsletter</h2>
+      <p>Stay updated with the latest CPR techniques and life-saving tips.</p>
+      <button onclick="closeLightbox()">✕</button>
+      <form action="site.html" method="POST">
+        <input type="email" name="email" placeholder="Enter your email" required>
+        <input type="submit" value="Subscribe">
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function redirectToPremium() {
+      window.location.href = "premium.html";
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+  </script>
+</body>
+</html>

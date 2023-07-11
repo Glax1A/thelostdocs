@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reCAPTCHA Challenge</title>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    #container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <form action="cookies.html" method="POST">
+      <div class="g-recaptcha" data-sitekey="6LdLPRYnAAAAAGZho_ipe4kkXNraaEeOXn0OHFEL"></div>
+      <br>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</body>
+</html>

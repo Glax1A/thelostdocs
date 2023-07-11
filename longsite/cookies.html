@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie Acceptance</title>
+  <style>
+    #container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .checkbox {
+      display: inline-block;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <form action="site.html">
+      <label class="checkbox">
+        <input type="checkbox" name="cookies[]" required>
+        Essential Cookies
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" name="cookies[]" required>
+        Analytics Cookies
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" name="cookies[]" required>
+        Marketing Cookies
+      </label>
+      <br>
+      <input type="submit" value="Accept All" id="accept-all-btn" disabled>
+    </form>
+  </div>
+
+  <script>
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const acceptAllBtn = document.getElementById('accept-all-btn');
+
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener('change', () => {
+        const allChecked = Array.from(checkboxes).every((c) => c.checked);
+        acceptAllBtn.disabled = !allChecked;
+      });
+    });
+  </script>
+</body>
+</html>

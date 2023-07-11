@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPR Guide</title>
+<style>
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#fade-in-out {
+  animation: fade-in-out 6s linear infinite;
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+</style>
+</head>
+<body>
+  <div id="container">
+    <div id="fade-in-out">
+      <p>Your friend is unable to breathe.</p>
+      <p>You search how to do CPR.</p>
+      <p>This is the website you click on.</p>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function() {
+  // Redirect to recaptcha.html after 6 seconds
+  setTimeout(function() {
+    window.location.href = "recaptcha.html";
+  }, 6000);
+};
+
+  </script>
+</body>
+</html>
