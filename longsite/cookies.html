@@ -1,83 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cookie Acceptance</title>
   <style>
     body {
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
     }
-
-    #container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-
-    form {
-      text-align: center;
+    .checkbox-group {
+      margin-bottom: 15px;
     }
-
-    .checkbox {
-      display: inline-block;
-      margin-right: 10px;
+    .checkbox-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
     }
-
-    input[type="submit"] {
-      margin-top: 10px;
-      padding: 8px 16px;
-      font-size: 16px;
-      border: none;
-      border-radius: 4px;
-      background-color: #007bff;
+    .checkbox-group input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    .accept-btn {
+      display: block;
+      width: 150px;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #4CAF50;
       color: #fff;
-      cursor: pointer;
-    }
-
-    input[type="submit"]:hover {
-      background-color: #0056b3;
-    }
-
-    input[type="submit"]:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
-  <div id="container">
-    <form action="site.html">
-      <label class="checkbox">
-        <input type="checkbox" name="cookies[]" required>
-        Essential Cookies
+  <div class="container">
+    <h2>Cookie Acceptance</h2>
+    <div class="checkbox-group">
+      <label>
+        <input type="checkbox" id="checkbox1" /> Essential Cookies
       </label>
-      <label class="checkbox">
-        <input type="checkbox" name="cookies[]" required>
-        Analytics Cookies
+      <label>
+        <input type="checkbox" id="checkbox2" /> Analytical Cookies
       </label>
-      <label class="checkbox">
-        <input type="checkbox" name="cookies[]" required>
-        Marketing Cookies
+      <label>
+        <input type="checkbox" id="checkbox3" /> Advertising Cookies
       </label>
-      <br>
-      <input type="submit" value="Accept All" id="accept-all-btn" disabled>
-    </form>
+    </div>
+    <a href="site.html" class="accept-btn" id="acceptBtn" disabled>Accept</a>
   </div>
 
   <script>
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    const acceptAllBtn = document.getElementById('accept-all-btn');
+    const checkbox1 = document.getElementById('checkbox1');
+    const checkbox2 = document.getElementById('checkbox2');
+    const checkbox3 = document.getElementById('checkbox3');
+    const acceptBtn = document.getElementById('acceptBtn');
 
-    checkboxes.forEach((checkbox) => {
-      checkbox.addEventListener('change', () => {
-        const allChecked = Array.from(checkboxes).every((c) => c.checked);
-        acceptAllBtn.disabled = !allChecked;
-      });
-    });
+    checkbox1.addEventListener('change', updateAcceptBtnState);
+    checkbox2.addEventListener('change', updateAcceptBtnState);
+    checkbox3.addEventListener('change', updateAcceptBtnState);
+
+    function updateAcceptBtnState() {
+      if (checkbox1.checked && checkbox2.checked && checkbox3.checked) {
+        acceptBtn.removeAttribute('disabled');
+      } else {
+        acceptBtn.setAttribute('disabled', 'true');
+      }
+    }
   </script>
 </body>
 </html>
