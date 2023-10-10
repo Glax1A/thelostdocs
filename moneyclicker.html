@@ -50,34 +50,46 @@
        },
              Casino:{
         amount:0,
-        cost:1000000,
-        dps:100000,
+        cost:100000,
+        dps:10000,
         name:"Casino"
        },
        Lottery:{
         amount:0,
-        cost:100000000,
-        dps:1000000,
+        cost:1000000,
+        dps:100000,
         name:"Lottery"
        },
        Accountant_Business:{
         amount:0,
-        cost:1000000000,
-        dps:100000000,
+        cost:100000000,
+        dps:1000000,
         name:"Accountant Business"
        },
-       Business_shares:{
+       Business_Shares:{
         amount:0,
-        cost:10000000000,
-        dps:1000000000,
+        cost:1000000000,
+        dps:100000000,
         name:"Business Shares"
        },
        Gold_Miner:{
         amount:0,
-        cost:1000000000000,
-        dps:100000000000,
+        cost:100000000000,
+        dps:10000000000,
         name:"Gold Miner"
        },
+      Bitcoin_Miner:{
+            amount:0,
+            cost:1000000000000,
+            dps:500000000000,
+            name:"Bitcoin Miner"
+      },
+      Tax_Collectors:{
+            amount:0,
+            cost:10000000000000,
+            dps:1000000000000,
+            name:"Tax Collectors",
+      },
    
   
    }
@@ -88,7 +100,7 @@
        if(clicker.upgrades[thing].cost <= clicker.dollars){
            clicker.dollars-= clicker.upgrades[thing].cost;
       clicker.upgrades[thing].amount++;
-      clicker.upgrades[thing].cost += Math.round(clicker.upgrades[thing].cost*0.15);
+      clicker.upgrades[thing].cost += Math.round(clicker.upgrades[thing].cost*0.10);
       update_upgrades();
        }
   }
