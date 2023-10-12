@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Latin Quiz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+</head>
+<body>
+<a href="index.html" ><img src="logo.png" width="105px" height="auto"> </img></a>
+	<div class="container">
+		<h1>Quiz Game</h1>
+		<p id="question"></p>
+		<div class="options">
+			<button id="option0" onclick="checkAnswer(0)" disabled></button>
+			<button id="option1" onclick="checkAnswer(1)" disabled></button>
+			<button id="option2" onclick="checkAnswer(2)" disabled></button>
+			<button id="option3" onclick="checkAnswer(3)" disabled></button>
+		</div>
+		<p id="result"></p>
+		<p id="score"></p>
+		<button id="newQuestionButton" onclick="generateQuestion()">New Question</button>
+       <p>Questions answered:</p> <b><p id="click-count">0</p></b>
+	</div>
+
+<script>
+
+// Get the button and the click count element
+const clickButton = document.getElementById("newQuestionButton");
+const clickCount = document.getElementById("click-count");
+
+// Initialize the click count to 0
+let count = -1;
+
+// Add an event listener to the button
+clickButton.addEventListener("click", () => {
+  // Increment the count and update the click count element
+  count++;
+  clickCount.innerText = count;
+});
+
+
+</script>
+
+
+	<script>
+
+const questions = [
+
+
+{
+  "question": "What does 'do' mean in Latin?",
+  "answers": ["I laughed", "I did/acted", "I gave", "I stood"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What does 'sto' mean in Latin?",
+  "answers": ["I saw", "I stood", "I came", "I ruled"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'Iubeo' mean in Latin?",
+  "answers": ["I ordered", "I believed/trusted", "I ran away/fled", "I captured"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What does 'Maneo' mean in Latin?",
+  "answers": ["I placed/put", "I captured", "I believed/trusted", "I remained/stayed"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What does 'Persuadeo' mean in Latin?",
+  "answers": ["I ruled", "I captured", "I laughed", "I persuaded"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What does 'Rideo' mean in Latin?",
+  "answers": ["I saw", "I laughed", "I ran away/fled", "I ruled"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'Sedeo' mean in Latin?",
+  "answers": ["I gave", "I stood", "I sat", "I said"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What does 'Video' mean in Latin?",
+  "answers": ["I got up", "I saw", "I did/acted", "I ruled"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'ago' mean in Latin?",
+  "answers": ["I believed/trusted", "I did/acted", "I ruled", "I captured"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'Cado' mean in Latin?",
+  "answers": ["I saw", "I fell", "I gave", "I laughed"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'Cognosco' mean in Latin?",
+  "answers": ["I captured", "I found out", "I believed/trusted", "I ruled"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'Cogo' mean in Latin?",
+  "answers": ["I placed/put", "I captured", "I forced", "I got up"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What does 'Credo' mean in Latin?",
+  "answers": ["I got up", "I saw", "I believed/trusted", "I captured"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What does 'Curro' mean in Latin?",
+  "answers": ["I believed/trusted", "I ran", "I ran away/fled", "I fell"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'Dico' mean in Latin?",
+  "answers": ["I believed/trusted", "I said", "I ruled", "I placed/put"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'discedo' mean in Latin?",
+  "answers": ["I captured", "I departed/left", "I believed/trusted", "I fell"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'Duco' mean in Latin?",
+  "answers": ["I led", "I ruled", "I said", "I captured"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What does 'Intellego' mean in Latin?",
+  "answers": ["I saw", "I understood", "I captured", "I laughed"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'lego' mean in Latin?",
+  "answers": ["I placed/put", "I captured", "I ruled", "I read"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What does 'mitto' mean in Latin?",
+  "answers": ["I sent", "I captured", "I forced", "I got up"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What does 'pello' mean in Latin?",
+  "answers": ["I saw", "I fell", "I drove", "I believed/trusted"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What does 'Peto' mean in Latin?",
+  "answers": ["I sought/asked for", "I ruled", "I believed/trusted", "I placed/put"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What does 'Pono' mean in Latin?",
+  "answers": ["I gave", "I placed/put", "I understood", "I laughed"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'promitto' mean in Latin?",
+  "answers": ["I placed/put", "I promised", "I saw", "I ruled"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'quaero' mean in Latin?",
+  "answers": ["I searched for/asked for", "I fell", "I did/acted", "I believed/trusted"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What does 'rego' mean in Latin?",
+  "answers": ["I believed/trusted", "I placed/put", "I ruled", "I captured"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What does 'relinquo' mean in Latin?",
+  "answers": ["I saw", "I ruled", "I believed/trusted", "I left"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What does 'scribo' mean in Latin?",
+  "answers": ["I laughed", "I wrote", "I ran away/fled", "I placed/put"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'surgo' mean in Latin?",
+  "answers": ["I got up", "I laughed", "I ruled", "I captured"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What does 'tollo' mean in Latin?",
+  "answers": ["I captured", "I raised/lifted", "I saw", "I said"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'trado' mean in Latin?",
+  "answers": ["I got up", "I laughed", "I handed over", "I placed/put"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What does 'traho' mean in Latin?",
+  "answers": ["I saw", "I handed over", "I dragged", "I ran"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What does 'Vinco' mean in Latin?",
+  "answers": ["I captured", "I conquered/won", "I believed/trusted", "I ruled"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'vivo' mean in Latin?",
+  "answers": ["I lived", "I laughed", "I fell", "I did/acted"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What does 'accipio' mean in Latin?",
+  "answers": ["I believed/trusted", "I received", "I captured", "I ran away/fled"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'capio' mean in Latin?",
+  "answers": ["I fell", "I believed/trusted", "I captured", "I took/captured"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What does 'conspicio' mean in Latin?",
+  "answers": ["I ruled", "I caught sight of", "I laughed", "I captured"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'facio' mean in Latin?",
+  "answers": ["I ruled", "I captured", "I made/did", "I said"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What does 'fugio' mean in Latin?",
+  "answers": ["I did/acted", "I ran away/fled", "I believed/trusted", "I handed over"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'iacio' mean in Latin?",
+  "answers": ["I threw", "I captured", "I laughed", "I ran away/fled"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What does 'venio' mean in Latin?",
+  "answers": ["I fell", "I saw", "I came", "I believed/trusted"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What does 'eo' mean in Latin?",
+  "answers": ["I ruled", "I went", "I captured", "I believed/trusted"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'fero' mean in Latin?",
+  "answers": ["I laughed", "I carried/brought", "I said", "I fell"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What does 'possum' mean in Latin?",
+  "answers": ["I was able", "I saw", "I did/acted", "I captured"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What does 'sum' mean in Latin?",
+  "answers": ["I captured", "I was", "I believed/trusted", "I laughed"],
+  "correctAnswerIndex": 1
+},
+
+{
+  "question": "What is the Latin translation for 'I gave'?",
+  "answers": ["sto", "do", "fero", "duco"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I stood'?",
+  "answers": ["cado", "sto", "traho", "promitto"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I ordered'?",
+  "answers": ["eo", "iubeo", "discedo", "surgo"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I remained/stayed'?",
+  "answers": ["relinquo", "vivo", "maneo", "tollo"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What is the Latin translation for 'I persuaded'?",
+  "answers": ["fero", "iacio", "cogo", "persuadeo"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What is the Latin translation for 'I laughed'?",
+  "answers": ["dico", "rego", "surgo", "rideo"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What is the Latin translation for 'I sat'?",
+  "answers": ["sedeo", "duco", "fero", "capio"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What is the Latin translation for 'I saw'?",
+  "answers": ["sto", "video", "discedo", "quaero"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I did/acted'?",
+  "answers": ["lego", "capio", "traho", "ago"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What is the Latin translation for 'I fell'?",
+  "answers": ["curro", "cado", "fugio", "fugio"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I found out'?",
+  "answers": ["intellego", "cognosco", "promitto", "mitto"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I forced'?",
+  "answers": ["facio", "cogo", "eo", "promitto"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I believed/trusted'?",
+  "answers": ["curro", "cogo", "lego", "credo"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What is the Latin translation for 'I ran'?",
+  "answers": ["discedo", "fugio", "eo", "traho"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What is the Latin translation for 'I said'?",
+  "answers": ["dico", "traho", "fero", "promitto"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What is the Latin translation for 'I departed/left'?",
+  "answers": ["vivo", "accipio", "relinquo", "discedo"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What is the Latin translation for 'I led'?",
+  "answers": ["pello", "duco", "sum", "cado"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I understood'?",
+  "answers": ["curro", "intellego", "capio", "cado"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I read'?",
+  "answers": ["capio", "cado", "lego", "pello"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What is the Latin translation for 'I sent'?",
+  "answers": ["mitto", "pello", "cogo", "duco"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What is the Latin translation for 'I drive'?",
+  "answers": ["fugio", "pello", "curro", "cognosco"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I sought/asked for'?",
+  "answers": ["duco", "quaero", "capio", "ago"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I placed/put'?",
+  "answers": ["curro", "mitto", "pello", "pono"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What is the Latin translation for 'I promised'?",
+  "answers": ["promitto", "credo", "maneo", "surgo"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What is the Latin translation for 'I searched for/asked for'?",
+  "answers": ["traho", "venio", "quaero", "tollo"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What is the Latin translation for 'I ruled'?",
+  "answers": ["capio", "rego", "fero", "fugio"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I left'?",
+  "answers": ["cado", "relinquo", "sedeo", "tollo"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I wrote'?",
+  "answers": ["duco", "scribo", "vivo", "traho"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I got up'?",
+  "answers": ["curro", "eo", "surgo", "tollo"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What is the Latin translation for 'I raised/lifted'?",
+  "answers": ["pello", "tollo", "capio", "ducere"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I handed over'?",
+  "answers": ["pello", "duco", "trado", "tollo"],
+  "correctAnswerIndex": 2
+},
+
+{
+  "question": "What is the Latin translation for 'I gave'?",
+  "answers": ["sto", "do", "fero", "duco"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I stood'?",
+  "answers": ["cado", "sto", "traho", "promitto"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I ordered'?",
+  "answers": ["eo", "iubeo", "discedo", "surgo"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I remained/stayed'?",
+  "answers": ["relinquo", "vivo", "maneo", "tollo"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What is the Latin translation for 'I persuaded'?",
+  "answers": ["fero", "iacio", "cogo", "persuadeo"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What is the Latin translation for 'I laughed'?",
+  "answers": ["dico", "rego", "surgo", "rideo"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What is the Latin translation for 'I sat'?",
+  "answers": ["sedeo", "duco", "fero", "capio"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What is the Latin translation for 'I saw'?",
+  "answers": ["sto", "video", "discedo", "quaero"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I did/acted'?",
+  "answers": ["lego", "capio", "traho", "ago"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What is the Latin translation for 'I fell'?",
+  "answers": ["curro", "cado", "fugio", "fugio"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I found out'?",
+  "answers": ["intellego", "cognosco", "promitto", "mitto"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I forced'?",
+  "answers": ["facio", "cogo", "eo", "promitto"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I believed/trusted'?",
+  "answers": ["curro", "cogo", "lego", "credo"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What is the Latin translation for 'I ran'?",
+  "answers": ["discedo", "fugio", "eo", "traho"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What is the Latin translation for 'I said'?",
+  "answers": ["dico", "traho", "fero", "promitto"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What is the Latin translation for 'I departed/left'?",
+  "answers": ["vivo", "accipio", "relinquo", "discedo"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What is the Latin translation for 'I led'?",
+  "answers": ["pello", "duco", "sum", "cado"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I understood'?",
+  "answers": ["curro", "intellego", "capio", "cado"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I read'?",
+  "answers": ["capio", "cado", "lego", "pello"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What is the Latin translation for 'I sent'?",
+  "answers": ["mitto", "pello", "cogo", "duco"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What is the Latin translation for 'I drive'?",
+  "answers": ["fugio", "pello", "curro", "cognosco"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I sought/asked for'?",
+  "answers": ["duco", "quaero", "capio", "ago"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I placed/put'?",
+  "answers": ["curro", "mitto", "pello", "pono"],
+  "correctAnswerIndex": 3
+},
+{
+  "question": "What is the Latin translation for 'I promised'?",
+  "answers": ["promitto", "credo", "maneo", "surgo"],
+  "correctAnswerIndex": 0
+},
+{
+  "question": "What is the Latin translation for 'I searched for/asked for'?",
+  "answers": ["traho", "venio", "quaero", "tollo"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What is the Latin translation for 'I ruled'?",
+  "answers": ["capio", "rego", "fero", "fugio"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I left'?",
+  "answers": ["cado", "relinquo", "sedeo", "tollo"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I wrote'?",
+  "answers": ["duco", "scribo", "vivo", "traho"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I got up'?",
+  "answers": ["curro", "eo", "surgo", "tollo"],
+  "correctAnswerIndex": 2
+},
+{
+  "question": "What is the Latin translation for 'I raised/lifted'?",
+  "answers": ["pello", "tollo", "capio", "ducere"],
+  "correctAnswerIndex": 1
+},
+{
+  "question": "What is the Latin translation for 'I handed over'?",
+  "answers": ["pello", "duco", "trado", "tollo"],
+  "correctAnswerIndex": 2
+},
+
+{
+  "question": "What is the Latin translation for 'I dragged'?",
+  "answers": ["tollo", "traho", "venio", "duco"],
+  "correctAnswerIndex": 1
+},
+
+
+
+
+];
+
+let currentQuestionIndex;
+let score = 0;
+let hasAnswered = false;
+
+function generateQuestion() {
+	const randomNumber = Math.floor(Math.random() * questions.length);
+	currentQuestionIndex = randomNumber;
+	const question = questions[randomNumber].question;
+	const answers = questions[randomNumber].answers;
+	document.getElementById("question").innerHTML = question;
+	for (let i = 0; i < answers.length; i++) {
+		document.getElementById("option" + i).innerHTML = answers[i];
+		document.getElementById("option" + i).disabled = false;
+	}
+	document.getElementById("result").innerHTML = "";
+	hasAnswered = false;
+}
+
+function checkAnswer(selectedAnswerIndex) {
+	if (hasAnswered) {
+		return;
+	}
+	hasAnswered = true;
+	const correctAnswerIndex = questions[currentQuestionIndex].correctAnswerIndex;
+	if (selectedAnswerIndex === correctAnswerIndex) {
+		score++;
+		document.getElementById("result").innerHTML = "Correct!";
+		document.getElementById("score").innerHTML = "Score: " + score;
+	} else {
+		score--;
+		document.getElementById("result").innerHTML = "Incorrect!";
+		document.getElementById("score").innerHTML = "Score: " + score;
+	}
+	disableOptions();
+}
+
+function disableOptions() {
+	for (let i = 0; i < 4; i++) {
+		document.getElementById("option" + i).disabled = true;
+	}
+}
+
+    </script>
+
+    <style>
+        
+        .container {
+	max-width: 500px;
+	margin: 0 auto;
+	text-align: center;
+	padding-top: 50px;
+}
+
+button {
+	background-color: #4CAF50;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	margin: 10px;
+}
+
+button:disabled {
+	background-color: gray;
+	cursor: not-allowed;
+}
+
+#result {
+	font-weight: bold;
+	margin-top: 30px;
+}
+
+#score {
+	font-weight: bold;
+	margin-top: 30px;
+}
+
+        </style>
+
+</body>
+</html>
